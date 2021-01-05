@@ -39,9 +39,10 @@ PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2)
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
-if [[ $GCC = yes ]]; then
-	CFLAGS="$CFLAGS -Wall -Wshadow -Wwrite-strings -W -Wstrict-prototypes"
-fi
+case "$CC" in
+  gcc*) CPPFLAGS="$CPPFLAGS -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers" ;;
+  *) ;;
+esac
 
 if [[ "$prefix" = NONE ]]; then
 	zzz="$prefix"

@@ -10,9 +10,19 @@
 
 #include <gtk/gtk.h>
 #include <unistd.h>
-#include <gettext.h>
 
+#ifdef ENABLE_NLS
+#include <libintl.h>
+#include <locale.h>
 #define _(x) gettext(x)
+#else
+#define _(x) (x)
+#define setlocale(cat,locale)
+#define bindtextdomain(Domainname,Dirname)
+#define bind_textdomain_codeset(Domainname,Codeset)
+#define textdomain(Domainname)
+#endif
+
 
 typedef enum {
 	EMPTY = 0,

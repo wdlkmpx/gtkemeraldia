@@ -4,9 +4,9 @@
 
 #include <stdio.h>
 
-#define GTK_DISABLE_DEPRECATED
-#define GDK_PIXBUF_DISABLE_DEPRECATED
-#define G_DISABLE_DEPRECATED
+//#define GTK_DISABLE_DEPRECATED
+//#define GDK_PIXBUF_DISABLE_DEPRECATED
+//#define G_DISABLE_DEPRECATED
 
 #include <gtk/gtk.h>
 #include <unistd.h>

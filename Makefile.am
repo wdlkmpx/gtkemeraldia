@@ -1,6 +1,5 @@
 
-gamesdir = ${prefix}/games
-games_PROGRAMS = xemeraldia
+bin_PROGRAMS = xemeraldia
 
 xemeraldia_SOURCES = crack.c games.c graphics.c init-graphics.c main.c \
 	move.c score.c bitmaps.h config.h games.h gettext.h graphics.h \
@@ -11,8 +10,8 @@ xemeraldia_SOURCES = crack.c games.c graphics.c init-graphics.c main.c \
 	bitmaps/crush0.xbm \
 	bitmaps/crush1.xbm bitmaps/crush2.xbm bitmaps/crush3.xbm \
 	bitmaps/crush4.xbm bitmaps/xemeraldia.xpm bitmaps/star.xbm
-xemeraldia_LDADD = $(LIBOBJS) @XEMERALDIA_LIBS@
-xemeraldia_CFLAGS=@XEMERALDIA_CFLAGS@
+xemeraldia_LDADD = $(LIBOBJS) @GTK_LIBS@
+xemeraldia_CFLAGS=@GTK_CFLAGS@
 
 appsdir = $(datadir)/applications
 apps_DATA = xemeraldia.desktop
@@ -20,11 +19,11 @@ apps_DATA = xemeraldia.desktop
 pixmapsdir = $(datadir)/pixmaps
 dist_pixmaps_DATA = bitmaps/xemeraldia.xpm
 
-SUBDIRS = m4 po
+SUBDIRS = po
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = config.rpath NEWS README.jp xemeraldia.desktop.in TODO
+EXTRA_DIST = xemeraldia.desktop.in
 
 AM_CPPFLAGS = -DLOCALEDIR=\"$(datadir)/locale\" \
 	-DHIGH_SCORE_TABLE=\"/var/games/xemeraldia.scores\"

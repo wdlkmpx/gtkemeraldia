@@ -63,6 +63,7 @@ AM_GLIB_GNU_GETTEXT
 
 AC_CONFIG_FILES([
 	Makefile
+	src/Makefile
 	po/Makefile.in
 	xemeraldia.desktop
 ])

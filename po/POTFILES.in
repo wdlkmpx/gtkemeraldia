@@ -1,5 +1,5 @@
-games.c
-graphics.c
-init-graphics.c
-main.c
-score.c
+src/games.c
+src/graphics.c
+src/init-graphics.c
+src/main.c
+src/score.c

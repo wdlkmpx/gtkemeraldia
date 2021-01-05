@@ -1,0 +1,80 @@
+Changes from xemeraldia 0.4.2 to 0.4.3 (2009)
+
+  * Removed mouse support.
+  * Implemented softer falling.
+  * Nicer images.
+
+--------------------------------------------------------------------------
+Changes from xemeraldia 0.4.1 to 0.4.2 (2005)
+
+  * Restored the ability to control the falling piece with mouse clicks.
+  * Added a .desktop file. Install an XEmeraldia icon.
+  * Some fixes to the high-scores' window.
+
+--------------------------------------------------------------------------
+Changes from xemeraldia 0.4 to 0.4.1 (July 28, 2005)
+
+  * Use modern ANSI C prototypes.
+  * Removed all ancient commented code.
+  * Updated build support files.
+  * Updated the about box.
+  * Use a button from stock for "about" button if available.
+  * Many minor code improvements and cleanups.
+  * Replaced lockf() with fcntl(), which supports shared locks.
+  * Added this changelog =).
+
+--------------------------------------------------------------------------
+Changes from xemeraldia 0.3 to 0.4
+
+  * Removed all uses of Xaw and Xlib and reimplemented everything with GTK+
+    and GDK. It no longer uses X resources for configuration.
+  * Implemented i18n and translated to Spanish.
+  * Save high scores' date as a time_t value for better i18n.
+  * Added an about box with instructions from the README file.
+  * Use autoconf and automake.
+
+--------------------------------------------------------------------------
+Changes from xemeraldia 0.21 to 0.3 (March 23, 1995)
+
+[XEmeraldia.ad, main.c]
+
+  ポップアップするハイスコア表示ウインドウのリソースに関する修正
+
+[score.c]
+  ・Ver 0.21 で修正した lockf の問題点のさらなる修正
+
+
+--------------------------------------------------------------------------
+Changes from xemeraldia 0.2 to 0.21 (March 22, 1995)
+
+[score.c]
+  ・Ver 0.2 で採り入れた lockf の不具合の修正
+
+[usleep.c]
+  ・sgi の場合も select() 版の usleep () を使うようにした
+
+[Imakefile, main.c graphics.h]
+  ・細かい修正
+
+
+--------------------------------------------------------------------------
+Changes from xemeraldia 0.1 to 0.2 (March 20, 1995)
+
+[Imakefile]
+  ・CC=gcc と決めうちしていたのをはずした
+  ・CFLAGS でなく EXTRA_DEFINES を使うようにした
+  ・HIGH_SCORE_DIR と HIGH_SCORE_FILE を HIGH_SCORE_TABLE に一本化
+
+[graphics.h]
+  ・app_data の実体の宣言がヘッダファイル内で行われていたのを main.c へ移動
+
+[score.c]
+  ・time() の型が long になっていたのを time_t に修正
+  ・SYSV において flock でなく lockf を用いるように修正
+
+[game.c]
+  ・SYSV において、srandom, random ではなく srand48, lrand48 を使用するよう
+   に修正
+
+[usleep.c(新規作成)]
+  ・標準で usleep の用意されていない環境への対応

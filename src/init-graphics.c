@@ -231,25 +231,24 @@ static void  createGCs (GdkDrawable *w)
 static void  createBWPixmaps (GdkDrawable *w, int depth)
 {
   int   i;
-  const char *block_bits[BLOCK_VARIETY * 2 + 1];
+  const char **block_bits[BLOCK_VARIETY * 2 + 1];
 
-  star = gdk_pixmap_create_from_data(w, star_bits, BLOCK_WIDTH, BLOCK_HEIGHT, depth, &white, &black);
-  block_bits[1] = block1_bits;
-  block_bits[2] = block2_bits;
-  block_bits[3] = block3_bits;
-  block_bits[4] = block4_bits;
-  block_bits[5] = block5_bits;
-  block_bits[6] = block6_bits;
-  block_bits[7] = block1cr_bits;
-  block_bits[8] = block2cr_bits;
-  block_bits[9] = block3cr_bits;
-  block_bits[10] = block4cr_bits;
-  block_bits[11] = block5cr_bits;
-  block_bits[12] = block6cr_bits;
+  star = gdk_pixmap_create_from_xpm_d (w, NULL, NULL, (char **) star_xpm);
+  block_bits[1] = block1_xpm;
+  block_bits[2] = block2_xpm;
+  block_bits[3] = block3_xpm;
+  block_bits[4] = block4_xpm;
+  block_bits[5] = block5_xpm;
+  block_bits[6] = block6_xpm;
+  block_bits[7] = block1cr_xpm;
+  block_bits[8] = block2cr_xpm;
+  block_bits[9] = block3cr_xpm;
+  block_bits[10] = block4cr_xpm;
+  block_bits[11] = block5cr_xpm;
+  block_bits[12] = block6cr_xpm;
   for (i = 1; i <= BLOCK_VARIETY * 2; i++)
     {
-      block[i] = gdk_pixmap_create_from_data(w, block_bits[i],
-                          BLOCK_WIDTH, BLOCK_HEIGHT, depth, &white, &black);
+      block[i] = gdk_pixmap_create_from_xpm_d (w, NULL, NULL, (char **) block_bits[i]);
     }
 }
 
@@ -259,7 +258,7 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
   int   i;
   GdkColor block_pixel[BLOCK_VARIETY + 1];
 
-  star = gdk_pixmap_create_from_data(w, star_bits, BLOCK_WIDTH, BLOCK_HEIGHT, depth, &app_data.starpixel, &black);
+  star = gdk_pixmap_create_from_xpm_d (w, NULL, NULL, (char **) star_xpm);
   block_pixel[1] = app_data.block1pixel;
   block_pixel[2] = app_data.block2pixel;
   block_pixel[3] = app_data.block3pixel;
@@ -347,14 +346,14 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
 static void  createCrushAnimePixmaps (GdkDrawable *w, int depth)
 {
   int   i;
-  const unsigned char *crush_bits[CRUSH_ANIME_FRAMES];
+  const char **crush_bits[CRUSH_ANIME_FRAMES];
 
-  crush_bits[0] = crush0_bits;
-  crush_bits[1] = crush1_bits;
-  crush_bits[2] = crush2_bits;
-  crush_bits[3] = crush3_bits;
-  crush_bits[4] = crush4_bits;
-  for (i = 0; i < CRUSH_ANIME_FRAMES; i++)
-    crush[i] = gdk_pixmap_create_from_data(w, (char*)crush_bits[i],
-                          BLOCK_WIDTH, BLOCK_HEIGHT, depth, &white, &black);
+  crush_bits[0] = crush0_xpm;
+  crush_bits[1] = crush1_xpm;
+  crush_bits[2] = crush2_xpm;
+  crush_bits[3] = crush3_xpm;
+  crush_bits[4] = crush4_xpm;
+  for (i = 0; i < CRUSH_ANIME_FRAMES; i++) {
+    crush[i] = gdk_pixmap_create_from_xpm_d (w, NULL, &black, (char **) crush_bits[i]);
+  }
 }

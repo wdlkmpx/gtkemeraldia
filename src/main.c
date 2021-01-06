@@ -56,63 +56,52 @@ void Quit()
 	gtk_main_quit();
 }
 
-static void About(void)
+static void About (void)
 {
-	GtkWidget *dialog, *label, *img, *hbox;
-	dialog = gtk_dialog_new_with_buttons(_("About XEmeraldia"),
-		GTK_WINDOW(topLevel),
-		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_ACCEPT,
-		NULL);
-		
-	hbox = gtk_hbox_new(FALSE, 2);
+    GtkWidget * w;
+    GdkPixbuf * logo;
+    const gchar * authors[] =
+    {
+        "Yuuki Tomikawa <tommy@huie.hokudai.ac.jp>",
+        "Nicolás Lichtmaier <nick@reloco.com.ar>",
+        "wdlkmpx (github)",
+        NULL
+    };
+    /* TRANSLATORS: Replace this string with your names, one name per line. */
+    gchar * translators = _("Translated by");
 
-	img = gtk_image_new_from_pixbuf(xemeraldia_icon);
-	gtk_misc_set_padding(GTK_MISC(img), 20, 10);
-	gtk_box_pack_start(GTK_BOX(hbox), img, FALSE,
-		FALSE, 0);
+    char * comments = _("Drop the blocks.  If you drop a square on top of one "
+       "of the same color, they (as well as any neighboring "
+       "blocks of the same color) will both be shaken by an "
+        "'impact'.  The first impact will cause fractures; the "
+        "second will cause the block(s) to dissolve.\n\n"
 
-	label = gtk_label_new(NULL);
+        "You can either use the arrow keys or vi-style (hjkl) "
+        "keys to move/rotate the blocks.  “s” or “p” will "
+        "pause the game.\n"
+    );
 
-	gtk_label_set_markup(GTK_LABEL(label),
-		_("<span size='xx-large' weight='bold'>xemeraldia</span>"));
+    logo = xemeraldia_icon;
 
-	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE,
-		FALSE, 0);
+    w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
+                      "version",      VERSION,
+                      "program-name", "XEmeraldia",
+                      "copyright",    "Copyright (C) 1995-2021",
+                      "comments",     comments,
+                      "license",      "Permission to use, copy, modify and distribute the program of Xemeraldia \n for any purpose and without fee is granted.",
+                      "website",      "https://github.com/wdlkmpx/xemeraldia",
+                      "authors",      authors,
+                      "logo",         logo,
+                      "translator-credits", translators,
+                      NULL);
+    gtk_container_set_border_width (GTK_CONTAINER (w), 2);
+    gtk_window_set_transient_for (GTK_WINDOW (w), GTK_WINDOW (topLevel));
+    gtk_window_set_modal (GTK_WINDOW (w), TRUE);
+    gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_CENTER_ON_PARENT);
 
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE,
-		FALSE, 0);
-
-	label = gtk_label_new(NULL);
-
-	gtk_label_set_markup(GTK_LABEL(label),
-		_("Drop the blocks.  If you drop a square on top of one "
-		"of the same color, they (as well as any neighboring "
-		"blocks of the same color) will both be shaken by an "
-		"“impact”.  The first impact will cause fractures; the "
-		"second will cause the block(s) to dissolve.\n\n"
-
-		"You can either use the arrow keys or vi-style (hjkl) "
-		"keys to move/rotate the blocks.  “s” or “p” will "
-		"pause the game, and if your boss comes along, “q” can "
-		"be used to avoid an unpleasant confrontation.\n"
-		"\n"
-		"Author: Yuuki Tomikawa &lt;tommy@huie.hokudai.ac.jp>\n"
-		"\n"
-		"Ported to GTK+ 2.x in 2003\n"
-		"by Nicolás Lichtmaier &lt;nick@reloco.com.ar>\n"
-		)
-	);
-
-	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-	gtk_misc_set_padding(GTK_MISC(label), 20, 10);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label, TRUE,
-		TRUE, 0);
-
-	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
-	gtk_widget_show_all(dialog);
-	gtk_dialog_run(GTK_DIALOG(dialog));
-	gtk_widget_destroy(dialog);
+    g_signal_connect_swapped (w, "response",
+                              G_CALLBACK (gtk_widget_destroy), w);
+    gtk_widget_show_all (GTK_WIDGET (w));
 }
 
 void get_x_color(const char *cn, GdkColor *color)

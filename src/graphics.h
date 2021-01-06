@@ -144,7 +144,3 @@ void  initXlib (void);
 #ifndef HIGH_SCORE_TABLE
 #define HIGH_SCORE_TABLE ".xemeraldia.scores"
 #endif
-
-#ifndef HAVE_USLEEP
-void usleep(unsigned);
-#endif

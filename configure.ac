@@ -33,7 +33,6 @@ AC_HEADER_TIME
 # Checks for library functions.
 AC_FUNC_SELECT_ARGTYPES
 AC_CHECK_FUNCS([select flock lockf getopt_long_only setregid])
-AC_REPLACE_FUNCS([usleep])
 
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2)
 AC_SUBST(GTK_CFLAGS)

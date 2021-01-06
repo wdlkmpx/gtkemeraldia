@@ -9,4 +9,4 @@ SUBDIRS = po src
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = xemeraldia.desktop.in
+EXTRA_DIST = xemeraldia.desktop

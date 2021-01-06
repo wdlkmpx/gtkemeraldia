@@ -66,6 +66,5 @@ AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
 	po/Makefile.in
-	xemeraldia.desktop
 ])
 AC_OUTPUT

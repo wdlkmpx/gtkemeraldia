@@ -58,7 +58,7 @@ void  showTmpScore (long tmp_sc, int sc_x, int sc_y, long ch_s)
   tmpSc[ch_s].x = sc_x;  tmpSc[ch_s].y = sc_y;
   tmpSc[ch_s].sc = tmp_sc;
   tmpSc[ch_s].cnt = 8;
-  sprintf (tmp_sc_str, "%7ld", tmpSc[ch_s].sc);
+  snprintf (tmp_sc_str, sizeof(tmp_sc_str), "%7ld", tmpSc[ch_s].sc);
 
 	layout = gtk_widget_create_pango_layout (board_w, tmp_sc_str);
 	pango_layout_set_font_description(layout, animated_score_font);
@@ -89,7 +89,7 @@ static gboolean animateTmpScore(void *closure)
 
   gdk_flush();
 
-  sprintf (tmp_sc_str, "%7ld", tmpSc[ch_s].sc);
+  snprintf (tmp_sc_str, sizeof(tmp_sc_str), "%7ld", tmpSc[ch_s].sc);
 
 	layout = gtk_widget_create_pango_layout (board_w, tmp_sc_str);
 	pango_layout_set_font_description(layout, animated_score_font);
@@ -272,22 +272,16 @@ void  stopTimer ()
 
 void  printScore ()
 {
-  char  buf[30];
-
-#ifdef __GLIBC__
-  sprintf (buf, "%'ld", sc);
-#else
-  sprintf (buf, "%ld", sc);
-#endif
+  char  buf[50];
+  snprintf (buf, sizeof(buf), "%ld", sc);
   gtk_label_set_label(GTK_LABEL(score_disp), buf);
 }
 
 
 void  printLevel ()
 {
-  char  buf[30];
-
-  sprintf (buf, "%ld", blocks / 20 + 1);
+  char  buf[50];
+  snprintf (buf, sizeof(buf), "%ld", blocks / 20 + 1);
   gtk_label_set_label(GTK_LABEL(level_disp), buf);
 }
 

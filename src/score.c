@@ -63,7 +63,7 @@ void  update_highscore_table ()
     {
       for (j = 0; j < i; j++)
 	high_scores[j] = high_scores[j + 1];
-      strcpy(high_scores[i].name, name);
+      strncpy (high_scores[i].name, name, sizeof(high_scores[i].name));
       high_scores[i].score = sc;
       high_scores[i].level = blocks / 20 + 1; 
       time(&(high_scores[i].date));
@@ -120,7 +120,7 @@ void  read_high_scores()
 		      &score->level,
 		      &score->date)) 
 	{
-	  strcpy( score->name, _("No name") );
+	  strncpy (score->name, _("No name"), sizeof(score->name));
 	  score->date = -1;
 	  score->level = score->score = 0;
 	}

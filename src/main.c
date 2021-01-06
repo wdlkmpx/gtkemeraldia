@@ -18,14 +18,38 @@
 #include <getopt.h>
 #endif
 
-#define char const char
 #include "bitmaps/xemeraldia.xpm"
-#undef char
 
-AppData  app_data = { .usescorefile = TRUE, .scorefile = HIGH_SCORE_TABLE };
+char score_file[256];
+AppData  app_data = {
+   .usescorefile = TRUE,
+   .scorefile = NULL // set in main()
+};
 char    *name, *programname;
 
 static GdkPixbuf *xemeraldia_icon;
+
+/* returns a path that must be freed with g_free) */
+static char * get_config_dir_file (const char * file)
+{
+#define EMPTY_STRING ""
+   char * config_home = NULL;
+   char * res = NULL;
+   config_home = getenv ("XDG_CONFIG_HOME");
+   if (!config_home) {
+      config_home = getenv ("HOME");
+      if (!config_home) {
+         config_home = EMPTY_STRING;
+      }
+   }
+   if (file) {
+      res = g_strconcat (config_home, "/", file, NULL);
+   } else {
+      res = g_strconcat (config_home, "/", NULL);
+   }
+   return (res);
+}
+
 
 void Quit()
 {
@@ -109,11 +133,19 @@ struct option options[] =
 int  main (int argc, char *argv[])
 {
 	programname = argv[0];
+
+	// get username
 	name = getenv ("USER");
 	if (!name) {
 		name = getenv ("USERNAME"); // win32
 	}
-	
+
+	// set score_file path
+	char *hfile = get_config_dir_file ("xemeraldia.scores");
+	strncpy (score_file, hfile, sizeof(score_file));
+	app_data.scorefile = score_file;
+	g_free (hfile);
+
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);

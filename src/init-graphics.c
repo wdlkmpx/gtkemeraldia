@@ -258,7 +258,7 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
   int   i;
   GdkColor block_pixel[BLOCK_VARIETY + 1];
 
-  star = gdk_pixmap_create_from_xpm_d (w, NULL, NULL, (char **) star_xpm);
+  star = gdk_pixmap_create_from_xpm_d (w, NULL, &black, (char **) star_xpm);
   block_pixel[1] = app_data.block1pixel;
   block_pixel[2] = app_data.block2pixel;
   block_pixel[3] = app_data.block3pixel;

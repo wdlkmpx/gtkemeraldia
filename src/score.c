@@ -186,7 +186,7 @@ void  write_high_scores()
 
 void  PrintHighScores ()
 {
-	GtkWidget *table, *align, *scroll;
+	GtkWidget *table;
 	GtkListStore *model;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
@@ -194,7 +194,8 @@ void  PrintHighScores ()
 	GtkTreeSelection *sel;
 	int     i;
   
-	if (! app_data.usescorefile) return;
+	if (! app_data.usescorefile)
+		return;
 	read_high_scores();
 	score_frame = gtk_dialog_new_with_buttons(_("xemeraldia's high scores"),
 		GTK_WINDOW(topLevel),
@@ -245,9 +246,7 @@ void  PrintHighScores ()
 
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Level"),
-		renderer,
-		"text", 2,
-		NULL);
+		renderer, "text", 2, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (table), column);
 
 	renderer = gtk_cell_renderer_text_new ();
@@ -257,19 +256,7 @@ void  PrintHighScores ()
 		NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (table), column);
 
-	align = gtk_alignment_new(.5, .5, .8, .7);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(score_frame)->vbox), align, TRUE, TRUE, 0);
-
-	scroll = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	
-	gtk_container_add(GTK_CONTAINER(scroll), table);
-
-	gtk_container_add(GTK_CONTAINER(align), scroll);
-
-//	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(score_frame)->vbox), gtk_label_new("Hola"), TRUE, TRUE, 0);
-
-	gtk_widget_set_size_request(score_frame,500,200);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(score_frame)->vbox), table, TRUE, TRUE, 0);
 
 	gtk_widget_show_all(score_frame);
 	gtk_dialog_run(GTK_DIALOG(score_frame));

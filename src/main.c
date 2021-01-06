@@ -11,9 +11,6 @@
 #include "games.h"
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_PWD_H
-#include <pwd.h>
-#endif
 #include <unistd.h>
 #include <errno.h>
 
@@ -111,9 +108,11 @@ struct option options[] =
 
 int  main (int argc, char *argv[])
 {
-	struct passwd *who;
-
 	programname = argv[0];
+	name = getenv ("USER");
+	if (!name) {
+		name = getenv ("USERNAME"); // win32
+	}
 	
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
@@ -181,8 +180,6 @@ int  main (int argc, char *argv[])
 	gtk_widget_show_all(topLevel);
 
 	initXlib ();
-	who  = getpwuid (getuid ());
-	name = who -> pw_name;
 	read_high_scores ();
 
 	gtk_main();

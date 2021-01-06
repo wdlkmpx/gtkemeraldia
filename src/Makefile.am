@@ -1,5 +1,4 @@
-AM_CPPFLAGS = -DLOCALEDIR=\"$(datadir)/locale\" \
-	-DHIGH_SCORE_TABLE=\"/var/games/xemeraldia.scores\"
+AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(datadir)/locale\"
 
 bin_PROGRAMS = xemeraldia
 

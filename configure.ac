@@ -43,17 +43,6 @@ case "$CC" in
   *) ;;
 esac
 
-if [[ "$prefix" = NONE ]]; then
-	zzz="$prefix"
-	prefix="$ac_default_prefix"
-	resolveddatadir=$(eval echo $datadir)
-	prefix="$zzz"
-else
-	resolveddatadir=$(eval echo $datadir)
-fi
-
-AC_SUBST(resolveddatadir)
-
 GETTEXT_PACKAGE=xemeraldia
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])

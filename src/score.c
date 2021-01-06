@@ -24,7 +24,7 @@ int errno_scores;
 
 /* #define DEBUG */
 
-#define HIGH_TABLE_SIZE 30      /* size of high score table */
+#define HIGH_TABLE_SIZE 15      /* size of high score table */
 
 static struct score_table
 {

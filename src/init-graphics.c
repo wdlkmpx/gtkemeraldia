@@ -333,13 +333,7 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
 		
 		cairo_destroy(c);
 		cairo_surface_destroy(s);
-		
-//      block[i] = gdk_pixmap_create_from_data(w, colorblock_bits,
-//                          BLOCK_WIDTH, BLOCK_HEIGHT, depth, &block_pixel[i], &black);
   }
-//  for (i = BLOCK_VARIETY + 1; i <= BLOCK_VARIETY * 2; i++)
-//      block[i] = gdk_pixmap_create_from_data(w, colorblockcr_bits,
-//                          BLOCK_WIDTH, BLOCK_HEIGHT, depth, &block_pixel[i - BLOCK_VARIETY], &black);
 }
 
 

@@ -123,32 +123,6 @@ int  main (int argc, char *argv[])
 
 	gtk_init(&argc, &argv);
 
-#if 0
-	gtk_rc_parse_string(
-			"style \"xemeraldia\" { \n"
-			"bg[NORMAL] =  \"SteelBlue1\"\n"
-			"font_name = \"Courier bold 12\"\n"
-			"text[NORMAL] =  \"white\"\n"
-			"fg[NORMAL] =  \"white\"\n"
-			"}\n"
-			"style \"xemeraldia-button\" { \n"
-			"bg[NORMAL] =  \"SkyBlue\"\n"
-			"font_name = \"Courier bold 12\"\n"
-			"text[NORMAL] =  \"black\"\n"
-			"fg[NORMAL] =  \"black\"\n"
-			"GtkWidget::interior-focus = 0\n"
-			"}\n"
-			"style \"xemeraldia-frame\" { \n"
-			"bg[NORMAL] =  \"DodgerBlue2\"\n"
-			"}\n"
-			"class \"GtkWidget\" style \"xemeraldia\"\n"
-			"class \"GtkButton\" style \"xemeraldia-button\"\n"
-			"widget \"*.GtkButton.GtkLabel\" style \"xemeraldia-button\"\n"
-			"widget \"*.GtkFrame\" style \"xemeraldia-frame\"\n"
-			"widget \"*.GtkFrame.*\" style \"xemeraldia-frame\"\n"
-			);
-#endif
-
 #ifdef HAVE_GETOPT_LONG_ONLY
 	while(getopt_long_only(argc, argv, "", options, NULL) != EOF);
 #else

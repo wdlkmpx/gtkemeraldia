@@ -25,6 +25,14 @@ int     colored;
 static void createBackground(void)
 {
 	cairo_t *cr = gdk_cairo_create(background);
+
+	// black background
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_rectangle (cr, 0, 0, WIN_WIDTH, WIN_HEIGHT);
+	cairo_fill (cr);
+/*
+ * this creates a gradient: blue - black... interesting
+ * but there are issues with the Blue block
 	cairo_pattern_t *p = cairo_pattern_create_radial(
 		WIN_WIDTH * .2, WIN_HEIGHT * .1, 0,
 		WIN_WIDTH * .2, WIN_HEIGHT * .1, WIN_WIDTH * 1.2
@@ -38,6 +46,7 @@ static void createBackground(void)
 		);
 	cairo_set_source(cr, p);
 	cairo_paint(cr);
+	*/
 	cairo_destroy(cr);
 }
 

@@ -257,7 +257,7 @@ static void  endGame ()
 	gtk_widget_queue_draw(board_w);
 
   update_highscore_table ();
-  PrintHighScores ();
+  //PrintHighScores ();
 }
 
 

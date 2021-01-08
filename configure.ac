@@ -34,9 +34,24 @@ AC_HEADER_TIME
 AC_FUNC_SELECT_ARGTYPES
 AC_CHECK_FUNCS([select flock lockf getopt_long_only setregid])
 
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2)
+
+AC_ARG_ENABLE(gtk3,
+AS_HELP_STRING([--enable-gtk3],[enable to use gtk-3.0 instead of gtk-2.0]),
+[case "${enableval}" in
+  yes)  enable_gtk3=yes ;;
+  no)   enable_gtk3=no ;;
+  *) AC_MSG_ERROR([bad value "${enableval}" for --enable-gtk3, use "yes" (default) or "no".]) ;;
+esac],[])
+
+if test "x$enable_gtk3" = "xyes" ; then
+  gtk_modules="gtk+-3.0 >= 3.0.0"
+else
+  gtk_modules="gtk+-2.0 >= 2.14.0"
+fi
+PKG_CHECK_MODULES(GTK, [$gtk_modules])
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
+
 
 case "$CC" in
   gcc*) CPPFLAGS="$CPPFLAGS -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers" ;;

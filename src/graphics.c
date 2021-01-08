@@ -32,7 +32,7 @@ gboolean expose_board(GtkWidget *widget, GdkEventExpose *event, gpointer data G_
 
 static void invalidate_area(GtkWidget *widget, gint x, gint y, gint w, gint h)
 {
-	while(GTK_WIDGET_FLAGS(widget) & GTK_NO_WINDOW)
+	while (gtk_widget_get_has_window(widget) == FALSE)
 	{
 		x += widget->allocation.x;
 		y += widget->allocation.y;

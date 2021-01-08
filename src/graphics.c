@@ -24,9 +24,10 @@ static struct TmpSc  tmpSc[50];
 
 gboolean expose_board(GtkWidget *widget, GdkEventExpose *event, gpointer data G_GNUC_UNUSED)
 {
-	gdk_draw_drawable(widget->window, draw_gc, board_pix, event->area.x, event->area.y,
-		event->area.x, event->area.y,
-		event->area.width, event->area.height);
+	gdk_draw_drawable (gtk_widget_get_window (widget),
+	                   draw_gc, board_pix, event->area.x, event->area.y,
+	                   event->area.x, event->area.y,
+	                   event->area.width, event->area.height);
 	return TRUE;
 }
 
@@ -62,7 +63,7 @@ void  showTmpScore (long tmp_sc, int sc_x, int sc_y, long ch_s)
 
 	layout = gtk_widget_create_pango_layout (board_w, tmp_sc_str);
 	pango_layout_set_font_description(layout, animated_score_font);
-	gdk_draw_layout(board_w->window, draw_gc,
+	gdk_draw_layout (gtk_widget_get_window (board_w), draw_gc,
 		(tmpSc[ch_s].x - 1) * BLOCK_WIDTH - 6,
 		((tmpSc[ch_s].y + 1) * BLOCK_HEIGHT - 24 + tmpSc[ch_s].cnt * 3) - 25,
 		layout);
@@ -85,7 +86,7 @@ static gboolean animateTmpScore(void *closure)
 		(tmpSc[ch_s].x - 1) * BLOCK_WIDTH,
 		(tmpSc[ch_s].y + 1) * BLOCK_HEIGHT - 43 + tmpSc[ch_s].cnt * 3,
 		90, 25);
-	gdk_window_process_updates (board_w->window, TRUE);
+	gdk_window_process_updates (gtk_widget_get_window (board_w), TRUE);
 
   gdk_flush();
 
@@ -93,7 +94,7 @@ static gboolean animateTmpScore(void *closure)
 
 	layout = gtk_widget_create_pango_layout (board_w, tmp_sc_str);
 	pango_layout_set_font_description(layout, animated_score_font);
-	gdk_draw_layout(board_w->window, draw_gc,
+	gdk_draw_layout (gtk_widget_get_window (board_w), draw_gc,
 		(tmpSc[ch_s].x - 1) * BLOCK_WIDTH - 6,
 		((tmpSc[ch_s].y + 1) * BLOCK_HEIGHT - 24 + tmpSc[ch_s].cnt * 3) - 25,
 		layout);
@@ -113,8 +114,9 @@ static gboolean animateTmpScore(void *closure)
 
 void  clearNextItem ()
 {
-	gdk_draw_rectangle(nextItem_w->window, delete_gc, TRUE, 0, 0,
-		BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
+	gdk_draw_rectangle (gtk_widget_get_window (nextItem_w),
+	                   delete_gc, TRUE, 0, 0,
+	                   BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
 }
 
 
@@ -124,13 +126,15 @@ void  printNextItem ()
 
   clearNextItem ();
   if (next_i.col[0] == STAR)
-      gdk_draw_drawable(nextItem_w->window, draw_gc, star, 0, 0,
+      gdk_draw_drawable (gtk_widget_get_window (nextItem_w),
+			draw_gc, star, 0, 0,
 			BLOCK_WIDTH / 2 + DIFF_X, BLOCK_HEIGHT /2 + DIFF_Y,
 			BLOCK_WIDTH, BLOCK_HEIGHT);
   else
     {
       for (i = 0; i < 3; i++)
-      gdk_draw_drawable(nextItem_w->window, draw_gc, block[next_i.col[i]], 0, 0,
+      gdk_draw_drawable (gtk_widget_get_window (nextItem_w),
+			draw_gc, block[next_i.col[i]], 0, 0,
 			BLOCK_WIDTH * (iRot_vx[0][i]) + DIFF_X,
 			BLOCK_HEIGHT * (1 + iRot_vy[0][i]) + DIFF_Y,
 			BLOCK_WIDTH, BLOCK_HEIGHT);

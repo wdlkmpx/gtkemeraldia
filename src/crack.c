@@ -258,6 +258,7 @@ static void  fallDownBlocks ()
 static void  flushCheckedBlocks ()
 {
    int  x, y;
+   GdkWindow * board_s = gtk_widget_get_window (board_w);
   
    for (x = 1; x <= BOARD_WIDTH; x++) {
       for (y = 0; y <= BOARD_HEIGHT - 1; y++)
@@ -266,7 +267,7 @@ static void  flushCheckedBlocks ()
             delete_1_block (x, y); 
       }
    }
-   gdk_window_process_updates (board_w->window, TRUE);
+   gdk_window_process_updates (board_s, TRUE);
    gdk_flush();
    usleep (28000);
    for (x = 1; x <= BOARD_WIDTH; x++) {
@@ -276,7 +277,7 @@ static void  flushCheckedBlocks ()
             printBlock (x, y, board[x][y].blk);
       }
    }
-   gdk_window_process_updates (board_w->window, TRUE);
+   gdk_window_process_updates (board_s, TRUE);
    gdk_flush();
    usleep (28000);
 }
@@ -284,6 +285,7 @@ static void  flushCheckedBlocks ()
 static void  crushBlocks ()
 {
    int  x, y, i;
+   GdkWindow * board_s = gtk_widget_get_window (board_w);
   
    for (i = 0; i < CRUSH_ANIME_FRAMES; i++)
    {
@@ -293,7 +295,7 @@ static void  crushBlocks ()
                crushAnimate (x, y, i);
          }
       }
-      gdk_window_process_updates (board_w->window, TRUE);
+      gdk_window_process_updates (board_s, TRUE);
       gdk_flush();
       usleep (23000);
       for (x = 1; x <= BOARD_WIDTH; x++) {
@@ -302,7 +304,7 @@ static void  crushBlocks ()
                crushAnimate (x, y, i);
          }
       }
-      gdk_window_process_updates (board_w->window, TRUE);
+      gdk_window_process_updates (board_s, TRUE);
       gdk_flush();
       usleep (23000);
    }
@@ -312,6 +314,7 @@ static void  crushBlocks ()
 static void  starComes ()
 {
    cellstatus_t selected_color = board[drop_i.x][drop_i.y + 1].blk;
+   GdkWindow * board_s = gtk_widget_get_window (board_w);
 
    board[drop_i.x][drop_i.y].sub = DELETE;
    if ((selected_color >= 1) && (selected_color <= BLOCK_VARIETY))
@@ -319,7 +322,7 @@ static void  starComes ()
 
    crushBlocks ();
    crackBlocks (0);
-   gdk_window_process_updates (board_w->window, TRUE);
+   gdk_window_process_updates (board_s, TRUE);
    gdk_flush();
    usleep (200000);
 

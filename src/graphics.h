@@ -8,7 +8,7 @@
 //#define GDK_PIXBUF_DISABLE_DEPRECATED
 //#define G_DISABLE_DEPRECATED
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <unistd.h>
 
 #ifdef ENABLE_NLS

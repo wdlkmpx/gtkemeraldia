@@ -3,10 +3,6 @@
 /*                                                              */
 /* This file is copied from "xtetris" Version 2.5, and modified */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "games.h"
 #include <string.h>
 #include <errno.h>

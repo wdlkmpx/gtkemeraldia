@@ -2,12 +2,6 @@
 /* xemeraldia    ----- main.c  */
 /*                             */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#define _GNU_SOURCE
-
 #include "games.h"
 #include <stdlib.h>
 #include <string.h>

@@ -2,12 +2,6 @@
 /* xemeraldia   ---- init-graphics.c */
 /*                                   */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <gdk/gdkkeysyms.h>
-
 #include "graphics.h"
 #include "bitmaps.h"
 

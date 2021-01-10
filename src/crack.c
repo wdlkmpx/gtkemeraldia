@@ -2,10 +2,6 @@
 /* xemeraldia   -----  crack.c */
 /*                             */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "games.h"
 
 static void  fallDownBlocks(void), crushBlocks(void), flushCheckedBlocks(void);

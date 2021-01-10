@@ -2,10 +2,6 @@
 /* xemeraldia    ------ move.c */
 /*                             */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "games.h"
 
 static void rotation(int rot);

@@ -2,11 +2,12 @@
 /* xemeraldia   ------ graphics.h */
 /*                                */
 
-#include <stdio.h>
+#define _GNU_SOURCE
 
-//#define GTK_DISABLE_DEPRECATED
-//#define GDK_PIXBUF_DISABLE_DEPRECATED
-//#define G_DISABLE_DEPRECATED
+#include <stdio.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include "gtkcompat.h"
 #include <unistd.h>

@@ -26,23 +26,23 @@
 
 
 typedef enum {
-	EMPTY = 0,
-	COLOR_1 = 1,
-	COLOR_2 = 2,
-	COLOR_3 = 3,
-	COLOR_4 = 4,
-	COLOR_5 = 5,
-	COLOR_6 = 6,
-	CHECKED = 10,
-	OBSTACLE = 32,
-	STAR = 44
+   EMPTY = 0,
+   COLOR_1 = 1,
+   COLOR_2 = 2,
+   COLOR_3 = 3,
+   COLOR_4 = 4,
+   COLOR_5 = 5,
+   COLOR_6 = 6,
+   CHECKED = 10,
+   OBSTACLE = 32,
+   STAR = 44
 } cellstatus_t;
 
 typedef enum {
-	EMPTY_SUB = 0,
-	CRACKED = 1,
-	DELETE = 2,
-	NEW_CRACKED = 5
+   EMPTY_SUB = 0,
+   CRACKED = 1,
+   DELETE = 2,
+   NEW_CRACKED = 5
 } cellsubstatus_t;
 
 #define BLOCK_VARIETY  6

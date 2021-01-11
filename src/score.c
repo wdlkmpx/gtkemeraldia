@@ -11,10 +11,6 @@
 #include <time.h>
 #include <unistd.h>
 
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-
 FILE *f_scores = NULL;
 int errno_scores;
 
@@ -74,37 +70,14 @@ void open_high_scores_file()
 		f_scores = fopen (app_data.scorefile, "w+");
 	if(!f_scores)
 		errno_scores = errno;
-#ifdef HAVE_SETREGID
-	setregid(getgid(),getgid());
-#endif
 }
 
 void  read_high_scores()
 {
 	int    i;
-#if HAVE_LOCKF
-	struct flock fl;
-#endif
-  
+
   if (! app_data.usescorefile)  return;
 
-#ifdef F_SETLKW
-	fl.l_type = F_RDLCK;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = 0;
-	fl.l_len = 0;
-	if(fcntl(fileno(f_scores), F_SETLKW, &fl))
-	{
-		perror(_("read_high_scores:can't lock for reading"));
-		return;
-	}
-#elif HAVE_FLOCK
-	if(flock(fileno(f_scores), LOCK_SH) == -1)
-	{
-		perror(_("read_high_scores:can't lock for reading"));
-		return;
-	}
-#endif
 	clearerr(f_scores);
 	rewind(f_scores);
   for (i = 0; i < HIGH_TABLE_SIZE; i++)
@@ -121,41 +94,13 @@ void  read_high_scores()
 	  score->level = score->score = 0;
 	}
     }
-#ifdef F_SETLKW
-	fl.l_type = F_UNLCK;
-	if(fcntl(fileno(f_scores), F_SETLKW, &fl))
-		perror(_("read_high_scores:can't unlock"));
-#elif HAVE_FLOCK
-  if (flock (fileno (f_scores), LOCK_UN) == -1)
-    perror (_("read_high_scores:can't unlock"));
-#endif
 }
 
 
 void  write_high_scores()
 {
 	int     i;
-#if HAVE_LOCKF
-	struct flock fl;
-#endif
   
-#ifdef F_SETLKW
-	fl.l_type = F_WRLCK;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = 0;
-	fl.l_len = 0;
-	if(fcntl(fileno(f_scores), F_SETLKW, &fl))
-	{
-		perror(_("write_high_scores:can't lock for writing"));
-		return;
-	}
-#elif HAVE_FLOCK
-	if (flock(fileno(f_scores), LOCK_EX) == -1)
-	{
-		perror(_("write_high_scores:can't lock for writing"));
-		return;
-	}
-#endif
 	rewind(f_scores);
 	if(ftruncate(fileno(f_scores), 0) != 0)
 	{
@@ -169,14 +114,6 @@ void  write_high_scores()
 	     high_scores[i].level,
 	     high_scores[i].date);
 	fflush(f_scores);
-#if HAVE_LOCKF
-	fl.l_type = F_UNLCK;
-	if(fcntl(fileno(f_scores), F_SETLKW, &fl))
-		perror(_("write_high_scores:can't unlock"));
-#elif HAVE_FLOCK
-  if (flock (fileno (f_scores), LOCK_UN) == -1)
-    perror (_("write_high_scores:can't unlock"));
-#endif
 }
 
 

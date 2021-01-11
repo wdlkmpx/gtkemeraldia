@@ -32,7 +32,7 @@ AC_HEADER_TIME
 
 # Checks for library functions.
 AC_FUNC_SELECT_ARGTYPES
-AC_CHECK_FUNCS([select flock lockf getopt_long_only setregid])
+AC_CHECK_FUNCS([select getopt_long_only])
 
 
 AC_ARG_ENABLE(gtk3,

@@ -7,11 +7,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-
-#ifdef HAVE_GETOPT_LONG_ONLY
-#include <getopt.h>
-#endif
-
 #include "bitmaps/xemeraldia.xpm"
 
 char score_file[256];
@@ -104,14 +99,6 @@ void get_x_color(const char *cn, GdkColor *color)
 	gdk_colormap_alloc_color(gdk_colormap_get_system(), color, FALSE, TRUE);
 }
 
-#ifdef HAVE_GETOPT_LONG_ONLY
-struct option options[] =
-{
-	{"score", FALSE, &(app_data.usescorefile), TRUE},
-	{"noscore", FALSE, &(app_data.usescorefile), FALSE},
-	{0, 0, 0, 0}
-};
-#endif
 
 int  main (int argc, char *argv[])
 {
@@ -137,12 +124,9 @@ int  main (int argc, char *argv[])
 
 	gtk_init(&argc, &argv);
 
-#ifdef HAVE_GETOPT_LONG_ONLY
-	while(getopt_long_only(argc, argv, "", options, NULL) != EOF);
-#else
-	if(argc>=2 && !strcmp(argv[1], "-noscore"))
+	if(argc>=2 && !strcmp(argv[1], "-noscore")) {
 		app_data.usescorefile = FALSE;
-#endif
+	}
 
 	if(!f_scores)
 	{

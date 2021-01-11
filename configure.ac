@@ -20,19 +20,9 @@ IT_PROG_INTLTOOL
 # Checks for programs.
 AC_PROG_CC
 
-# Checks for libraries.
-
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h sys/file.h sys/time.h unistd.h fcntl.h])
-
-# Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
-AC_HEADER_TIME
-
-# Checks for library functions.
-AC_FUNC_SELECT_ARGTYPES
-AC_CHECK_FUNCS([select getopt_long_only])
+AC_CHECK_HEADERS([sys/file.h sys/time.h])
 
 
 AC_ARG_ENABLE(gtk3,

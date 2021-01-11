@@ -32,17 +32,17 @@ extern const int  iCrChk[4][2];
 
 struct Board
 {
-	cellstatus_t blk;   /* blocks */
-	cellsubstatus_t sub;   /* sub    */
-	cellstatus_t chk;   /* check  */
+   cellstatus_t blk;   /* blocks */
+   cellsubstatus_t sub;   /* sub    */
+   cellstatus_t chk;   /* check  */
 };
 extern struct Board board[BOARD_WIDTH + 2][BOARD_HEIGHT + 1];
 
 struct DropItem {
-	cellstatus_t  col[3];
-	int  rot;
-	int  x, y;
-	int blocknum;
+   cellstatus_t  col[3];
+   int  rot;
+   int  x, y;
+   int blocknum;
 };
 extern struct DropItem  drop_i, next_i;
 

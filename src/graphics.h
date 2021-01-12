@@ -79,13 +79,6 @@ extern int errno_scores;
 typedef struct {
   gboolean  usescorefile;
   const char *scorefile;
-  GdkColor    block1pixel;
-  GdkColor    block2pixel;
-  GdkColor    block3pixel;
-  GdkColor    block4pixel;
-  GdkColor    block5pixel;
-  GdkColor    block6pixel;
-  GdkColor    starpixel;
 } AppData, *AppDataPtr;
 
 extern AppData app_data;

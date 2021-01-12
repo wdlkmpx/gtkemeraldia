@@ -267,20 +267,26 @@ static void  createBWPixmaps (GdkDrawable *w, int depth)
 static void  createColoredPixmaps (GdkDrawable *w, int depth)
 {
    int   i;
-   GdkColor block_pixel[BLOCK_VARIETY + 1];
+   const int block_color[BLOCK_VARIETY + 1][3] =
+   {
+      { 0,   0,   0   }, /* ignored */
+      { 255, 0,   0   }, /* red */
+      { 0,   0,   255 }, /* red */
+      { 26,  210, 26  }, /* blue */
+      { 255, 225, 0   }, /* green */
+      { 238, 130, 238 }, /* yellow */
+      { 135, 206, 235 }, /* violet */
+   };
 
    star = gdk_pixmap_create_from_xpm_d (w, NULL, &black, (char **) star_xpm);
-   block_pixel[1] = app_data.block1pixel;
-   block_pixel[2] = app_data.block2pixel;
-   block_pixel[3] = app_data.block3pixel;
-   block_pixel[4] = app_data.block4pixel;
-   block_pixel[5] = app_data.block5pixel;
-   block_pixel[6] = app_data.block6pixel;
    for (i = 1; i <= BLOCK_VARIETY; i++)
    {
       cairo_surface_t *s = cairo_image_surface_create (CAIRO_FORMAT_RGB24, BLOCK_WIDTH, BLOCK_HEIGHT);
       cairo_t *c = cairo_create (s);
-      gdk_cairo_set_source_color (c, &block_pixel[i]);
+      cairo_set_source_rgb (c,
+                            block_color[i][0] / 255.0,
+                            block_color[i][1] / 255.0,
+                            block_color[i][2] / 255.0);
       cairo_move_to (c, 0, 0);
       cairo_set_line_width (c, BLOCK_HEIGHT * .0625);
       cairo_line_to (c, BLOCK_WIDTH, BLOCK_HEIGHT);
@@ -292,13 +298,13 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
       p = cairo_pattern_create_radial (BLOCK_WIDTH / 2, BLOCK_HEIGHT / 2, 0,
                                        BLOCK_WIDTH / 2, BLOCK_HEIGHT / 2, BLOCK_WIDTH / 2);
       cairo_pattern_add_color_stop_rgb (p, 0,
-                                        block_pixel[i].red / 65535.0,
-                                        block_pixel[i].green / 65535.0,
-                                        block_pixel[i].blue / 65535.0);
+                                        block_color[i][0] / 255.0,
+                                        block_color[i][1] / 255.0,
+                                        block_color[i][2] / 255.0);
       cairo_pattern_add_color_stop_rgb (p, 1,
-                                        (block_pixel[i].red / 65535.0) * .7,
-                                        (block_pixel[i].green / 65535.0) * .7,
-                                        (block_pixel[i].blue / 65535.0) * .7);
+                                        block_color[i][0] / 255.0,
+                                        block_color[i][1] / 255.0,
+                                        block_color[i][2] / 255.0);
       cairo_set_source (c, p);
       cairo_fill (c);
       

@@ -93,12 +93,6 @@ static void About (void)
    gtk_widget_show_all (GTK_WIDGET (w));
 }
 
-void get_x_color(const char *cn, GdkColor *color)
-{
-   gdk_color_parse (cn, color);
-   gdk_colormap_alloc_color (gdk_colormap_get_system(), color, FALSE, TRUE);
-}
-
 
 int  main (int argc, char *argv[])
 {
@@ -154,14 +148,6 @@ int  main (int argc, char *argv[])
    gtk_window_set_icon (GTK_WINDOW(topLevel), xemeraldia_icon);
 
    // g_log_set_always_fatal(G_LOG_LEVEL_MASK);
-
-   get_x_color ("red", &app_data.block1pixel);
-   get_x_color ("blue", &app_data.block2pixel);
-   get_x_color ("green", &app_data.block3pixel);
-   get_x_color ("yellow", &app_data.block4pixel);
-   get_x_color ("violet", &app_data.block5pixel);
-   get_x_color ("sky blue", &app_data.block6pixel);
-   get_x_color ("orange", &app_data.starpixel);
 
    board_pix = gdk_pixmap_new (NULL, WIN_WIDTH, WIN_HEIGHT, gdk_visual_get_system()->depth);
 

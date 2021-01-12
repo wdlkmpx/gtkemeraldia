@@ -111,43 +111,43 @@ static gboolean keyPressed(GtkWidget *widget, GdkEventKey *event, gpointer user_
 {
    switch(event->keyval)
    {
-      case GDK_K:
-      case GDK_k:
-      case GDK_I:
-      case GDK_i:
-      case GDK_Down:
-      case GDK_Begin:
+      case GDK_KEY_K:
+      case GDK_KEY_k:
+      case GDK_KEY_I:
+      case GDK_KEY_i:
+      case GDK_KEY_Down:
+      case GDK_KEY_Begin:
          Rotation();
          return TRUE;
-      case GDK_Up:
-      case GDK_J:
-      case GDK_j:
+      case GDK_KEY_Up:
+      case GDK_KEY_J:
+      case GDK_KEY_j:
          CCRotation();
          return TRUE;
-      case GDK_Left:
-      case GDK_H:
-      case GDK_h:
-      case GDK_U:
-      case GDK_u:
+      case GDK_KEY_Left:
+      case GDK_KEY_H:
+      case GDK_KEY_h:
+      case GDK_KEY_U:
+      case GDK_KEY_u:
          MoveLeft();
          return TRUE;
-      case GDK_Right:
-      case GDK_L:
-      case GDK_l:
+      case GDK_KEY_Right:
+      case GDK_KEY_L:
+      case GDK_KEY_l:
          MoveRight();
          return TRUE;
-      case GDK_space:
+      case GDK_KEY_space:
          MoveDown();
          return TRUE;
-      case GDK_S:
-      case GDK_s:
-      case GDK_P:
-      case GDK_p:
-      case GDK_Pause:
+      case GDK_KEY_S:
+      case GDK_KEY_s:
+      case GDK_KEY_P:
+      case GDK_KEY_p:
+      case GDK_KEY_Pause:
          StartGame();
          return TRUE;
-      case GDK_Q:
-      case GDK_q:
+      case GDK_KEY_Q:
+      case GDK_KEY_q:
          Quit();
          return TRUE;
    }
@@ -160,7 +160,7 @@ void initGTK(GtkWidget *w)
 
    g_signal_connect (G_OBJECT(w), "key-press-event", G_CALLBACK(keyPressed), NULL);
 
-   hbox = gtk_hbox_new (FALSE, 2);
+   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
    gtk_container_add (GTK_CONTAINER(w), hbox);
 
    board_w = gtk_drawing_area_new ();
@@ -172,7 +172,7 @@ void initGTK(GtkWidget *w)
    
    gtk_box_pack_start (GTK_BOX(hbox), board_w, TRUE, TRUE, 3);
 
-   vbox = gtk_vbox_new (FALSE, 6);
+   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
    gtk_box_pack_start (GTK_BOX(hbox), vbox, TRUE, TRUE, 3);
 
    x = gtk_label_new (NULL);
@@ -181,7 +181,7 @@ void initGTK(GtkWidget *w)
    nextBox = gtk_frame_new (NULL);
    gtk_box_pack_start (GTK_BOX(vbox), nextBox, FALSE, FALSE, 0);
 
-   vbox2 = gtk_vbox_new (FALSE, 1);
+   vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 1);
    gtk_container_add (GTK_CONTAINER(nextBox), vbox2);
 
    Next = gtk_label_new (NULL);
@@ -197,7 +197,7 @@ void initGTK(GtkWidget *w)
    frame = gtk_frame_new (NULL);
    gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
 
-   framevbox = gtk_vbox_new (FALSE, 2);
+   framevbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
    gtk_container_add (GTK_CONTAINER (frame), framevbox);
    
    Score = gtk_label_new(NULL);
@@ -217,30 +217,23 @@ void initGTK(GtkWidget *w)
    level_disp = gtk_label_new ("0");
    gtk_box_pack_start (GTK_BOX (framevbox), level_disp, TRUE, TRUE, 0);
 
-   frame = gtk_alignment_new (.5, 0.2, .9, .15);
-   gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
+   framevbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+   gtk_box_pack_start (GTK_BOX (vbox), framevbox, TRUE, TRUE, 20);
 
-   framevbox = gtk_vbutton_box_new ();
-   gtk_container_add(GTK_CONTAINER(frame), framevbox);
-
-   start = gtk_button_new_with_label (_("Start"));
-   gtk_box_pack_start (GTK_BOX (framevbox), start, TRUE, FALSE, 0);
+   start = gtk_button_new_with_mnemonic (_("_Start"));
+   gtk_box_pack_start (GTK_BOX (framevbox), start, FALSE, FALSE, 2);
 
    if (app_data.usescorefile)
    {
       scores = gtk_button_new_with_label (_("Scores"));
-      gtk_box_pack_start (GTK_BOX (framevbox), scores, TRUE, FALSE, 0);
+      gtk_box_pack_start (GTK_BOX (framevbox), scores, FALSE, FALSE, 2);
    }
 
-#ifdef GTK_STOCK_ABOUT
-   about = gtk_button_new_from_stock (GTK_STOCK_ABOUT);
-#else
-   about = gtk_button_new_with_label (_("About..."));
-#endif
-   gtk_box_pack_start (GTK_BOX (framevbox), about, TRUE, FALSE, 0);
+   about = gtk_button_new_from_stock ("gtk-about");
+   gtk_box_pack_start (GTK_BOX (framevbox), about, FALSE, FALSE, 2);
 
-   quit = gtk_button_new_from_stock (GTK_STOCK_QUIT);
-   gtk_box_pack_start (GTK_BOX (framevbox), quit, TRUE, FALSE, 0);
+   quit = gtk_button_new_from_stock ("gtk-quit");
+   gtk_box_pack_start (GTK_BOX (framevbox), quit, FALSE, FALSE, 2);
 }
 
 

@@ -143,7 +143,7 @@ void  PrintHighScores ()
    dialog = gtk_dialog_new_with_buttons(_("xemeraldia's high scores"),
                                              GTK_WINDOW(topLevel),
                                              GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                             GTK_STOCK_CLOSE, GTK_RESPONSE_ACCEPT,
+                                             "gtk-close", GTK_RESPONSE_ACCEPT,
                                              NULL);
    gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
    vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

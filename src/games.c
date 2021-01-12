@@ -106,8 +106,12 @@ static void  restart ()
 {
    gtk_button_set_label (GTK_BUTTON (start), _("Pause"));
    paused = FALSE;
-   gdk_draw_drawable (board_pix, draw_gc, saved_screen, 0, 0, 0, 0, -1, -1);
-   g_object_unref (saved_screen);
+
+   cairo_t * cr = cairo_create (board_pix);
+   cairo_set_source_surface (cr, saved_screen, 0, 0);
+   cairo_paint (cr);
+   cairo_destroy (cr);
+
    gtk_widget_queue_draw (board_w);
    saved_screen = NULL;
    RedrawNextItem();
@@ -214,25 +218,34 @@ static void  pauseProc ()
    paused = TRUE;
    stopTimer ();
 
-   saved_screen = gdk_pixmap_new (board_pix, WIN_WIDTH, WIN_HEIGHT, -1);
-   gdk_draw_drawable (saved_screen, draw_gc, board_pix, 0, 0, 0, 0, -1, -1);
+   cairo_t * cr_sc = cairo_create (saved_screen);
+   cairo_set_source_surface (cr_sc, board_pix, 0, 0);
+   cairo_paint (cr_sc);
+   cairo_destroy (cr_sc);
 
-   gdk_draw_rectangle (board_pix, delete_gc, TRUE, 0, 0,
-                       WIN_WIDTH, WIN_HEIGHT);
+   cairo_t * cr = cairo_create (board_pix);
+   cairo_set_source_rgba (cr, 0, 0, 0, 1);
+   cairo_rectangle (cr, 0, 0, WIN_WIDTH, WIN_HEIGHT);
+   cairo_fill (cr);
 
-   gdk_draw_rectangle (board_pix, draw_gc, FALSE, DIFF_X / 2, DIFF_Y / 2,
-                       BLOCK_WIDTH * BOARD_WIDTH + DIFF_X,
-                       BLOCK_HEIGHT * BOARD_HEIGHT + DIFF_Y);
+   cairo_set_source_rgba (cr, 1, 1, 1, 1);
+   cairo_rectangle (cr, DIFF_X / 2, DIFF_Y / 2,
+                    BLOCK_WIDTH * BOARD_WIDTH + DIFF_X,
+                    BLOCK_HEIGHT * BOARD_HEIGHT + DIFF_Y);
+   cairo_stroke (cr);
 
    layout = gtk_widget_create_pango_layout (board_w, _("PAUSE!"));
    pango_layout_set_font_description (layout, pause_font);
    pango_layout_get_pixel_extents (layout, &rect, NULL);
-   gdk_draw_layout (board_pix, draw_gc,
-                    (WIN_WIDTH/2)-(rect.width/2), 220, layout);
+
+   cairo_set_source_rgba (cr, 1, 1, 1, 1);
+   cairo_move_to (cr, (WIN_WIDTH/2)-(rect.width/2), 220);
+   pango_cairo_show_layout (cr, layout);
    g_object_unref (layout);
 
    clearNextItem ();
 
+   cairo_destroy (cr);
    gtk_widget_queue_draw (board_w);
 }
 
@@ -249,13 +262,18 @@ static void  endGame ()
    layout = gtk_widget_create_pango_layout (board_w, _("<<< GAME OVER >>>"));
    pango_layout_set_font_description (layout, game_over_font);
    pango_layout_get_pixel_extents (layout, &rect, NULL);
-   gdk_draw_layout (board_pix, draw_gc,
-                    (WIN_WIDTH/2)-(rect.width/2), 220, layout);
+
+   cairo_t * cr = cairo_create (board_pix);
+   cairo_set_source_rgba (cr, 1, 1, 1, 1);
+   cairo_move_to (cr, (WIN_WIDTH/2)-(rect.width/2), 220);
+   pango_cairo_show_layout (cr, layout);
+   cairo_destroy (cr);
+
    g_object_unref (layout);
    gtk_widget_queue_draw (board_w);
 
-  update_highscore_table ();
-  //PrintHighScores ();
+   update_highscore_table ();
+   //PrintHighScores ();
 }
 
 

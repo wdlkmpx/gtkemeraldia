@@ -42,6 +42,31 @@ static char * get_config_dir_file (const char * file)
 
 void Quit()
 {
+   int i;
+   if (board_pix) {
+      cairo_surface_destroy (board_pix);
+      board_pix = NULL;
+   }
+   if (saved_screen) {
+      cairo_surface_destroy (saved_screen);
+      saved_screen = NULL;
+   }
+   if (star) {
+      cairo_surface_destroy (star);
+      star = NULL;
+   }
+   for (i = 0; i < CRUSH_ANIME_FRAMES; i++) {
+      if (crush[i]) {
+         cairo_surface_destroy (crush[i]);
+         crush[i] = NULL;
+      }
+   }
+   for (i = 1; i <= BLOCK_VARIETY * 2; i++) {
+      if (block[i]) {
+         cairo_surface_destroy (block[i]);
+         block[i] = NULL;
+      }
+   }
    gtk_main_quit();
 }
 
@@ -149,11 +174,9 @@ int  main (int argc, char *argv[])
 
    // g_log_set_always_fatal(G_LOG_LEVEL_MASK);
 
-   board_pix = gdk_pixmap_new (NULL, WIN_WIDTH, WIN_HEIGHT, gdk_visual_get_system()->depth);
-
    initGTK (topLevel);
 
-   g_signal_connect (G_OBJECT (quit), "clicked", G_CALLBACK(Quit), NULL);
+   g_signal_connect (G_OBJECT (quit), "clicked", G_CALLBACK (Quit), NULL);
    g_signal_connect (G_OBJECT (topLevel), "delete-event", G_CALLBACK(Quit), NULL);
    g_signal_connect (G_OBJECT (start), "clicked", G_CALLBACK(StartGame), NULL);
    g_signal_connect (G_OBJECT (about), "clicked", G_CALLBACK(About), NULL);

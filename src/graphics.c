@@ -18,23 +18,59 @@ struct TmpSc
 
 static struct TmpSc  tmpSc[50];
 
+static void //  https://stackoverflow.com/a/36483677 
+_cairo_gdk_draw_pix (cairo_t *cr,
+                     int src_x,   int src_y,
+                     int dest_x,  int dest_y,
+                     int width,   int height)
+{
+   // This a special case where we don't need
+   //   the whole pixbuf, just a region.
+   // It's a bit complicated with cairo,
+   //   so we need the source's surface to perform operations.
+   // See
+   //   https://developer.gnome.org/gdk2/stable/gdk2-Drawing-Primitives.html#gdk-draw-drawable
+   cairo_pattern_t * pattern;
+   cairo_surface_t * source;
+   pattern = cairo_get_source (cr);
+   cairo_pattern_get_surface (pattern, &source);
+
+   cairo_save (cr);
+
+   /* Move (0, 0) to the destination position */
+   cairo_translate (cr, dest_x, dest_y);
+
+   /* Set up the source surface in such a way that
+    * (src_x, src_y) maps to (0, 0) in user coordinates. */
+   cairo_set_source_surface (cr, source, -src_x, -src_y);
+
+   /* Do the drawing */
+   cairo_rectangle (cr, 0, 0, width, height);
+   cairo_fill (cr);
+
+   /* Undo all of our modifications to the drawing state */
+   cairo_restore (cr);
+}
+
+
 gboolean expose_board(GtkWidget *widget, GdkEventExpose *event, gpointer data G_GNUC_UNUSED)
 {
-   gdk_draw_drawable (gtk_widget_get_window (widget),
-                      draw_gc, board_pix, event->area.x, event->area.y,
-                      event->area.x, event->area.y,
-                      event->area.width, event->area.height);
+   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (widget));
+   cairo_set_source_surface (cr, board_pix, 0, 0);
+
+   if (event->area.x == 0 && event->area.y == 0) {
+      cairo_paint (cr);
+   } else {
+      _cairo_gdk_draw_pix (cr, event->area.x, event->area.y,
+                           event->area.x, event->area.y,
+                           event->area.width, event->area.height);
+   }
+   cairo_destroy (cr);
    return TRUE;
 }
 
 static void invalidate_area(GtkWidget *widget, gint x, gint y, gint w, gint h)
 {
-   while (gtk_widget_get_has_window(widget) == FALSE)
-   {
-      x += widget->allocation.x;
-      y += widget->allocation.y;
-      widget = widget->parent;
-   }
    gtk_widget_queue_draw_area(widget, x, y, w, h);
 }
 
@@ -60,13 +96,17 @@ void  showTmpScore (long tmp_sc, int sc_x, int sc_y, long ch_s)
 
    layout = gtk_widget_create_pango_layout (board_w, tmp_sc_str);
    pango_layout_set_font_description (layout, animated_score_font);
-   gdk_draw_layout (gtk_widget_get_window (board_w), draw_gc,
-                    (tmpSc[ch_s].x - 1) * BLOCK_WIDTH - 6,
-                    ((tmpSc[ch_s].y + 1) * BLOCK_HEIGHT - 24 + tmpSc[ch_s].cnt * 3) - 25,
-                    layout);
+
+   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (board_w));
+   cairo_set_source_rgba (cr, 1, 1, 1, 1);
+   cairo_move_to (cr,
+                  (tmpSc[ch_s].x - 1) * BLOCK_WIDTH - 6,
+                  ((tmpSc[ch_s].y + 1) * BLOCK_HEIGHT - 24 + tmpSc[ch_s].cnt * 3) - 25);
+   pango_cairo_show_layout (cr, layout);
+   cairo_destroy (cr);
+
    g_object_unref (layout);
    gdk_flush();
-   gdk_flush(); // duplicate!
 
    --tmpSc[ch_s].cnt;
    tmp_sc_timer = g_timeout_add (20, animateTmpScore, GINT_TO_POINTER(ch_s));
@@ -91,10 +131,15 @@ static gboolean animateTmpScore(void *closure)
 
    layout = gtk_widget_create_pango_layout (board_w, tmp_sc_str);
    pango_layout_set_font_description (layout, animated_score_font);
-   gdk_draw_layout (gtk_widget_get_window (board_w), draw_gc,
-                    (tmpSc[ch_s].x - 1) * BLOCK_WIDTH - 6,
-                    ((tmpSc[ch_s].y + 1) * BLOCK_HEIGHT - 24 + tmpSc[ch_s].cnt * 3) - 25,
-                    layout);
+
+   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (board_w));
+   cairo_set_source_rgba (cr, 1, 1, 1, 1);
+   cairo_move_to (cr,
+                  (tmpSc[ch_s].x - 1) * BLOCK_WIDTH - 6,
+                  ((tmpSc[ch_s].y + 1) * BLOCK_HEIGHT - 24 + tmpSc[ch_s].cnt * 3) - 25);
+   pango_cairo_show_layout (cr, layout);
+   cairo_destroy (cr);
+
    g_object_unref (layout);
    gdk_flush();
 
@@ -124,28 +169,29 @@ void  clearNextItem ()
 void  printNextItem ()
 {
    int  i;
+   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (nextItem_w));
 
    clearNextItem ();
    if (next_i.col[0] == STAR) {
-      gdk_draw_drawable (gtk_widget_get_window (nextItem_w),
-                         draw_gc, star, 0, 0,
-                         BLOCK_WIDTH / 2 + DIFF_X, BLOCK_HEIGHT /2 + DIFF_Y,
-                         BLOCK_WIDTH, BLOCK_HEIGHT);
+      cairo_set_source_surface (cr, star,
+                                BLOCK_WIDTH / 2 + DIFF_X, BLOCK_HEIGHT /2 + DIFF_Y);
+      cairo_paint (cr);
    } else {
       for (i = 0; i < 3; i++) {
-         gdk_draw_drawable (gtk_widget_get_window (nextItem_w),
-                            draw_gc, block[next_i.col[i]], 0, 0,
-                            BLOCK_WIDTH * (iRot_vx[0][i]) + DIFF_X,
-                            BLOCK_HEIGHT * (1 + iRot_vy[0][i]) + DIFF_Y,
-                            BLOCK_WIDTH, BLOCK_HEIGHT);
+         cairo_set_source_surface (cr, block[next_i.col[i]],
+                                   BLOCK_WIDTH * (iRot_vx[0][i]) + DIFF_X,
+                                   BLOCK_HEIGHT * (1 + iRot_vy[0][i]) + DIFF_Y);
+         cairo_paint (cr);
+
       }
    }
+   cairo_destroy (cr);
 }
 
 
 void clearScreen()
 {
-   cairo_t * cr = gdk_cairo_create (board_pix);
+   cairo_t * cr = cairo_create (board_pix);
    cairo_set_source_rgba (cr, 0, 0, 0, 1); // black
    cairo_rectangle (cr, 0, 0, WIN_WIDTH, WIN_HEIGHT);
    cairo_fill (cr);
@@ -195,10 +241,11 @@ void  printItem ()
 
    if (star_comes)
    {
-      gdk_draw_drawable (board_pix, draw_gc, star,
-                         0,0,
-                         cx, cy,
-                         BLOCK_WIDTH, BLOCK_HEIGHT);
+      cairo_t * cr = cairo_create (board_pix);
+      cairo_set_source_surface (cr, star, cx, cy);
+      cairo_paint (cr);
+      cairo_destroy (cr);
+
       invalidate_area (board_w, cx, cy, BLOCK_WIDTH, BLOCK_HEIGHT);
       prevxcoord[0] = cx;
       prevycoord[0] = cy;
@@ -231,6 +278,7 @@ void  printItem ()
 
 void drawCell(int xcoord, int ycoord, cellstatus_t color, cellsubstatus_t sub)
 {
+   cairo_t * cr = cairo_create (board_pix);
    int  pixmap_number = color;
 
    if ((sub == CRACKED) || (sub == DELETE)) {
@@ -239,10 +287,12 @@ void drawCell(int xcoord, int ycoord, cellstatus_t color, cellsubstatus_t sub)
 
    if ((color > 0) && (color <= BLOCK_VARIETY * 2))
    {
-      gdk_draw_drawable (board_pix, draw_gc, block[pixmap_number], 0, 0,
-                        xcoord, ycoord, BLOCK_WIDTH, BLOCK_HEIGHT);
+      cairo_set_source_surface (cr, block[pixmap_number], xcoord, ycoord);
+      cairo_paint (cr);
+
       invalidate_area (board_w, xcoord, ycoord, BLOCK_WIDTH, BLOCK_HEIGHT);
    }
+   cairo_destroy (cr);
 }
 
 void printBlock(int x, int y, cellstatus_t color)
@@ -253,7 +303,7 @@ void printBlock(int x, int y, cellstatus_t color)
 
 void deleteCell(int xcoord, int ycoord)
 {
-   cairo_t * cr = gdk_cairo_create (board_pix);
+   cairo_t * cr = cairo_create (board_pix);
    cairo_set_source_rgba (cr, 0, 0, 0, 1);
    cairo_rectangle (cr, xcoord, ycoord, BLOCK_WIDTH, BLOCK_HEIGHT);
    cairo_fill (cr);
@@ -310,15 +360,18 @@ void  printLevel ()
 
 void crack_1_block(int x, int y)
 {
+   cairo_t * cr = cairo_create (board_pix);
    int xcoord = BLOCK_WIDTH * x - DIFF_X;
    int ycoord = BLOCK_HEIGHT * y + DIFF_Y;
    if ((board[x][y].blk > 0) && (board[x][y].blk <= BLOCK_VARIETY))
    {
-      gdk_draw_drawable (board_pix, draw_gc, block[board[x][y].blk + BLOCK_VARIETY], 0, 0,
-                         xcoord, ycoord,
-                         BLOCK_WIDTH, BLOCK_HEIGHT);
+      cairo_set_source_surface (cr, block[board[x][y].blk + BLOCK_VARIETY],
+                                xcoord, ycoord);
+      cairo_paint (cr);
+
       invalidate_area (board_w, xcoord, ycoord, BLOCK_WIDTH, BLOCK_HEIGHT);
    }
+   cairo_destroy (cr);
 }
 
 
@@ -326,8 +379,11 @@ void  crushAnimate (int x, int y, int num)
 {
    int xcoord = BLOCK_WIDTH * x - DIFF_X;
    int ycoord = BLOCK_HEIGHT * y + DIFF_Y;
-   gdk_draw_drawable (board_pix, draw_gc, crush[num], 0, 0,
-                      xcoord, ycoord,
-                      BLOCK_WIDTH, BLOCK_HEIGHT);
+
+   cairo_t * cr = cairo_create (board_pix);
+   cairo_set_source_surface (cr, crush[num], xcoord, ycoord);
+   cairo_paint (cr);
+   cairo_destroy (cr);
+
    invalidate_area (board_w, xcoord, ycoord, BLOCK_WIDTH, BLOCK_HEIGHT);
 }

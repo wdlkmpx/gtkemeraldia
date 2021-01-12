@@ -25,22 +25,25 @@
 #include "./bitmaps/crush3.xpm"
 #include "./bitmaps/crush4.xpm"
 
-static void  createBWPixmaps(GdkDrawable *w, int depth), createColoredPixmaps(GdkDrawable *w, int depth);
-static void  createGCs(GdkDrawable *), createCrushAnimePixmaps(GdkDrawable *w, int depth);
+static void  createBWPixmaps ();
+static void  createColoredPixmaps ();
+static void  createCrushAnimePixmaps ();
 
 GtkWidget  *board_w, *nextItem_w, *quit, *start, *scores, *score_disp, *level_disp, *about;
 GtkWidget  *score_frame, *score_text, *high_sc_w, *topLevel;
 GdkGC *draw_gc, *delete_gc;
-GdkPixmap  *block[BLOCK_VARIETY * 2 + 1], *crush[CRUSH_ANIME_FRAMES];
-GdkPixmap  *board_pix, *star, *saved_screen;
+cairo_surface_t * block[BLOCK_VARIETY * 2 + 1];
+cairo_surface_t * crush[CRUSH_ANIME_FRAMES];
+cairo_surface_t * star;
+cairo_surface_t * board_pix;
+cairo_surface_t * saved_screen;
 
-GdkColor     black, white;
 int     colored;
 
-   /*
-   * this creates a gradient: blue - black... interesting
-   * but there are issues with the Blue block, and potential
-   * performance issues with cairo
+/*
+* this creates a gradient: blue - black... interesting
+* but there are issues with the Blue block, and potential
+* performance issues with cairo
 static void createBackground(void)
 {
    background = gdk_window_create_similar_surface (gtk_widget_get_window (board_w),
@@ -60,29 +63,49 @@ static void createBackground(void)
    cairo_destroy(cr);
 }*/
 
+static cairo_surface_t * block_xpm_to_surface (const char **xpm)
+{
+   GdkPixbuf * pixbuf;
+   cairo_surface_t * s;
+   s = gdk_window_create_similar_surface (gtk_widget_get_window (board_w),
+                                          CAIRO_CONTENT_COLOR_ALPHA,
+                                          BLOCK_WIDTH, BLOCK_HEIGHT);
+   if (xpm) {
+      cairo_t * cr = cairo_create (s);
+      pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+      gdk_cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
+      cairo_paint (cr);
+      cairo_destroy (cr);
+      g_object_unref (pixbuf);
+   }
+   return (s);
+}
+
 void  initXlib ()
 {
    int     depth;
    GdkVisual *vi;
 
-   gdk_color_black (gdk_colormap_get_system(), &black);
-   gdk_color_white (gdk_colormap_get_system(), &white);
-
    vi = gdk_visual_get_system ();
    depth = vi->depth;
    colored = ((depth != 1) && (vi->type != GDK_VISUAL_GRAYSCALE));
 
-   createGCs (board_pix);
-   createCrushAnimePixmaps (board_pix, depth);
+   board_pix = gdk_window_create_similar_surface (gtk_widget_get_window (board_w),
+                                                  CAIRO_CONTENT_COLOR_ALPHA,
+                                                  WIN_WIDTH, WIN_HEIGHT);
+
+   saved_screen = gdk_window_create_similar_surface (gtk_widget_get_window (board_w),
+                                                     CAIRO_CONTENT_COLOR_ALPHA,
+                                                     WIN_WIDTH, WIN_HEIGHT);
+   createCrushAnimePixmaps ();
    if (colored) {
-      createColoredPixmaps (board_pix, depth);
+      createColoredPixmaps ();
    } else {
-     createBWPixmaps (board_pix, depth);
+     createBWPixmaps ();
    }
    ///createBackground();
    clearNextItem ();
    clearScreen();
-
 
    animated_score_font = pango_font_description_from_string ("sans-serif 20");
    pause_font = pango_font_description_from_string ("sans-serif Bold Italic 22");
@@ -226,45 +249,25 @@ void initGTK(GtkWidget *w)
 }
 
 
-static void  createGCs (GdkDrawable *w)
+static void  createBWPixmaps ()
 {
-   GdkGCValues values;
-
-   values.foreground  = white;
-   values.background  = black;
-   draw_gc = gdk_gc_new_with_values (w, &values, GDK_GC_FOREGROUND | GDK_GC_BACKGROUND);
-   values.foreground  = black;
-   values.background  = black;
-   delete_gc = gdk_gc_new_with_values (w, &values, GDK_GC_FOREGROUND | GDK_GC_BACKGROUND);
+   star = block_xpm_to_surface (star_xpm);
+   block[1] = block_xpm_to_surface (block1_xpm);
+   block[2] = block_xpm_to_surface (block2_xpm);
+   block[3] = block_xpm_to_surface (block3_xpm);
+   block[4] = block_xpm_to_surface (block4_xpm);
+   block[5] = block_xpm_to_surface (block5_xpm);
+   block[6] = block_xpm_to_surface (block6_xpm);
+   block[7] = block_xpm_to_surface (block1cr_xpm);
+   block[8] = block_xpm_to_surface (block2cr_xpm);
+   block[9] = block_xpm_to_surface (block3cr_xpm);
+   block[10] = block_xpm_to_surface (block4cr_xpm);
+   block[11] = block_xpm_to_surface (block5cr_xpm);
+   block[12] = block_xpm_to_surface (block6cr_xpm);
 }
 
 
-static void  createBWPixmaps (GdkDrawable *w, int depth)
-{
-   int   i;
-   const char **block_bits[BLOCK_VARIETY * 2 + 1];
-
-   star = gdk_pixmap_create_from_xpm_d (w, NULL, NULL, (char **) star_xpm);
-   block_bits[1] = block1_xpm;
-   block_bits[2] = block2_xpm;
-   block_bits[3] = block3_xpm;
-   block_bits[4] = block4_xpm;
-   block_bits[5] = block5_xpm;
-   block_bits[6] = block6_xpm;
-   block_bits[7] = block1cr_xpm;
-   block_bits[8] = block2cr_xpm;
-   block_bits[9] = block3cr_xpm;
-   block_bits[10] = block4cr_xpm;
-   block_bits[11] = block5cr_xpm;
-   block_bits[12] = block6cr_xpm;
-   for (i = 1; i <= BLOCK_VARIETY * 2; i++)
-   {
-      block[i] = gdk_pixmap_create_from_xpm_d (w, NULL, NULL, (char **) block_bits[i]);
-   }
-}
-
-
-static void  createColoredPixmaps (GdkDrawable *w, int depth)
+static void  createColoredPixmaps ()
 {
    int   i;
    const int block_color[BLOCK_VARIETY + 1][3] =
@@ -278,7 +281,7 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
       { 135, 206, 235 }, /* violet */
    };
 
-   star = gdk_pixmap_create_from_xpm_d (w, NULL, &black, (char **) star_xpm);
+   star = block_xpm_to_surface (star_xpm);
    for (i = 1; i <= BLOCK_VARIETY; i++)
    {
       cairo_surface_t *s = cairo_image_surface_create (CAIRO_FORMAT_RGB24, BLOCK_WIDTH, BLOCK_HEIGHT);
@@ -323,8 +326,8 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
       cairo_set_source (c, p);
       cairo_fill (c);
       
-      block[i] = gdk_pixmap_new (w,BLOCK_WIDTH,BLOCK_HEIGHT,-1);
-      cairo_t *cr_pixmap = gdk_cairo_create (block[i]);
+      block[i] = block_xpm_to_surface (NULL);
+      cairo_t *cr_pixmap = cairo_create (block[i]);
       cairo_set_source_surface (cr_pixmap, s, 0, 0);
       cairo_paint (cr_pixmap);
       cairo_destroy (cr_pixmap);
@@ -340,8 +343,8 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
       cairo_line_to (c, BLOCK_WIDTH * .4, BLOCK_HEIGHT);
       cairo_stroke (c);
 
-      block[i +  BLOCK_VARIETY] = gdk_pixmap_new (w,BLOCK_WIDTH,BLOCK_HEIGHT,-1);
-      cr_pixmap = gdk_cairo_create (block[i + BLOCK_VARIETY]);
+      block[i +  BLOCK_VARIETY] = block_xpm_to_surface (NULL);
+      cr_pixmap = cairo_create (block[i + BLOCK_VARIETY]);
       cairo_set_source_surface (cr_pixmap, s, 0, 0);
       cairo_paint (cr_pixmap);
       cairo_destroy (cr_pixmap);
@@ -352,17 +355,11 @@ static void  createColoredPixmaps (GdkDrawable *w, int depth)
 }
 
 
-static void  createCrushAnimePixmaps (GdkDrawable *w, int depth)
+static void  createCrushAnimePixmaps ()
 {
-   int   i;
-   const char **crush_bits[CRUSH_ANIME_FRAMES];
-
-   crush_bits[0] = crush0_xpm;
-   crush_bits[1] = crush1_xpm;
-   crush_bits[2] = crush2_xpm;
-   crush_bits[3] = crush3_xpm;
-   crush_bits[4] = crush4_xpm;
-   for (i = 0; i < CRUSH_ANIME_FRAMES; i++) {
-      crush[i] = gdk_pixmap_create_from_xpm_d (w, NULL, &black, (char **) crush_bits[i]);
-   }
+   crush[0] = block_xpm_to_surface (crush0_xpm);
+   crush[1] = block_xpm_to_surface (crush1_xpm);
+   crush[2] = block_xpm_to_surface (crush2_xpm);
+   crush[3] = block_xpm_to_surface (crush3_xpm);
+   crush[4] = block_xpm_to_surface (crush4_xpm);
 }

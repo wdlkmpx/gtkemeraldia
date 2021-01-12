@@ -32,21 +32,22 @@ GtkWidget  *board_w, *nextItem_w, *quit, *start, *scores, *score_disp, *level_di
 GtkWidget  *score_frame, *score_text, *high_sc_w, *topLevel;
 GdkGC *draw_gc, *delete_gc;
 GdkPixmap  *block[BLOCK_VARIETY * 2 + 1], *crush[CRUSH_ANIME_FRAMES];
-GdkPixmap  *board_pix, *star, *saved_screen, *background;
+GdkPixmap  *board_pix, *star, *saved_screen;
+
 GdkColor     black, white;
 int     colored;
 
-static void createBackground(void)
-{
-   cairo_t *cr = gdk_cairo_create(background);
-
-   // black background
-   cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-   cairo_rectangle (cr, 0, 0, WIN_WIDTH, WIN_HEIGHT);
-   cairo_fill (cr);
    /*
    * this creates a gradient: blue - black... interesting
-   * but there are issues with the Blue block
+   * but there are issues with the Blue block, and potential
+   * performance issues with cairo
+static void createBackground(void)
+{
+   background = gdk_window_create_similar_surface (gtk_widget_get_window (board_w),
+                                                   CAIRO_CONTENT_COLOR_ALPHA,
+                                                   WIN_WIDTH, WIN_HEIGHT);
+   cairo_t *cr = cairo_create (background);
+
    cairo_pattern_t *p;
    p = cairo_pattern_create_radial (WIN_WIDTH * .2, WIN_HEIGHT * .1,
                                     0, WIN_WIDTH * .2,
@@ -55,9 +56,9 @@ static void createBackground(void)
    cairo_pattern_add_color_stop_rgb (p, 1, 0, 0, 0);
    cairo_set_source (cr, p);
    cairo_paint (cr);
-   */
+
    cairo_destroy(cr);
-}
+}*/
 
 void  initXlib ()
 {
@@ -78,7 +79,7 @@ void  initXlib ()
    } else {
      createBWPixmaps (board_pix, depth);
    }
-   createBackground();
+   ///createBackground();
    clearNextItem ();
    clearScreen();
 

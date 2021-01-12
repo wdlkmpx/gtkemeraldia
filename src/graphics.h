@@ -62,8 +62,8 @@ typedef enum {
 
 
 extern GdkGC   *draw_gc, *delete_gc;
-extern GdkPixmap  *board_pix, *block[BLOCK_VARIETY * 2 + 1], *saved_screen, *background;
 extern GdkPixmap  *crush[CRUSH_ANIME_FRAMES];
+extern GdkPixmap  *board_pix, *block[BLOCK_VARIETY * 2 + 1], *saved_screen;
 extern GdkPixmap  *star;
 extern GtkWidget  *board_w, *quit, *start, *scores, *nextItem_w, *score_disp, *level_disp, *about;
 extern GtkWidget  *score_frame, *score_text, *high_sc_w, *topLevel;

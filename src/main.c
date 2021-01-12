@@ -164,7 +164,6 @@ int  main (int argc, char *argv[])
    get_x_color ("orange", &app_data.starpixel);
 
    board_pix = gdk_pixmap_new (NULL, WIN_WIDTH, WIN_HEIGHT, gdk_visual_get_system()->depth);
-   background = gdk_pixmap_new (NULL, WIN_WIDTH, WIN_HEIGHT, gdk_visual_get_system()->depth);
 
    initGTK (topLevel);
 

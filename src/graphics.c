@@ -112,9 +112,12 @@ static gboolean animateTmpScore(void *closure)
 
 void  clearNextItem ()
 {
-   gdk_draw_rectangle (gtk_widget_get_window (nextItem_w),
-                       delete_gc, TRUE, 0, 0,
-                       BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
+   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (nextItem_w));
+   cairo_set_source_rgba (cr, 0, 0, 0, 1); // black
+   cairo_rectangle (cr, 0, 0,
+                    BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
+   cairo_fill (cr);
+   cairo_destroy (cr);
 }
 
 
@@ -142,12 +145,20 @@ void  printNextItem ()
 
 void clearScreen()
 {
-   gdk_draw_drawable (board_pix, draw_gc, background, 0, 0, 0, 0,
-                      WIN_WIDTH, WIN_HEIGHT);
+   cairo_t * cr = gdk_cairo_create (board_pix);
+   cairo_set_source_rgba (cr, 0, 0, 0, 1); // black
+   cairo_rectangle (cr, 0, 0, WIN_WIDTH, WIN_HEIGHT);
+   cairo_fill (cr);
 
-   gdk_draw_rectangle (board_pix, draw_gc, FALSE, DIFF_X / 2, DIFF_Y / 2,
-                       BLOCK_WIDTH * BOARD_WIDTH + DIFF_X,
-                       BLOCK_HEIGHT * BOARD_HEIGHT + DIFF_Y);
+   cairo_set_line_width (cr, 1.0);
+   cairo_set_source_rgba (cr, 1, 1, 1, 1);
+   cairo_rectangle (cr,
+                    DIFF_X / 2,
+                    DIFF_Y / 2,
+                    BLOCK_WIDTH * BOARD_WIDTH + DIFF_X,
+                    BLOCK_HEIGHT * BOARD_HEIGHT + DIFF_Y);
+   cairo_stroke (cr);
+   cairo_destroy (cr);
 }
 
 /** Draws the falling block described in drop_i.
@@ -242,10 +253,12 @@ void printBlock(int x, int y, cellstatus_t color)
 
 void deleteCell(int xcoord, int ycoord)
 {
-   gdk_draw_drawable (board_pix, draw_gc, background,
-                      xcoord, ycoord,
-                      xcoord, ycoord,
-                      BLOCK_WIDTH, BLOCK_HEIGHT);
+   cairo_t * cr = gdk_cairo_create (board_pix);
+   cairo_set_source_rgba (cr, 0, 0, 0, 1);
+   cairo_rectangle (cr, xcoord, ycoord, BLOCK_WIDTH, BLOCK_HEIGHT);
+   cairo_fill (cr);
+   cairo_destroy (cr);
+
    invalidate_area (board_w, xcoord, ycoord, BLOCK_WIDTH, BLOCK_HEIGHT);
 }
 

@@ -61,14 +61,13 @@ typedef enum {
 #define MAX_DELAY   920
 
 
-extern GdkGC   *draw_gc, *delete_gc;
 extern cairo_surface_t * board_pix;
 extern cairo_surface_t * saved_screen;
 extern cairo_surface_t * block[BLOCK_VARIETY * 2 + 1];
 extern cairo_surface_t * crush[CRUSH_ANIME_FRAMES];
 extern cairo_surface_t * star;
 extern GtkWidget  *board_w, *quit, *start, *scores, *nextItem_w, *score_disp, *level_disp, *about;
-extern GtkWidget  *score_frame, *score_text, *high_sc_w, *topLevel;
+extern GtkWidget  *score_text, *high_sc_w, *topLevel;
 extern int     colored;
 extern guint timer;
 extern PangoFontDescription *animated_score_font;
@@ -86,7 +85,7 @@ typedef struct {
 extern AppData app_data;
 
 /* In graphics.c */
-gboolean expose_board(GtkWidget *widget, GdkEventExpose *event, gpointer data);
+gboolean expose_board (GtkWidget *widget, gpointer compat, gpointer data);
 void RedrawNextItem(void);
 void deleteCell(int xcoord, int ycoord);
 void delete_1_block(int x, int y);

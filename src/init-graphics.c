@@ -30,8 +30,8 @@ static void  createColoredPixmaps ();
 static void  createCrushAnimePixmaps ();
 
 GtkWidget  *board_w, *nextItem_w, *quit, *start, *scores, *score_disp, *level_disp, *about;
-GtkWidget  *score_frame, *score_text, *high_sc_w, *topLevel;
-GdkGC *draw_gc, *delete_gc;
+GtkWidget  *score_text, *high_sc_w, *topLevel;
+
 cairo_surface_t * block[BLOCK_VARIETY * 2 + 1];
 cairo_surface_t * crush[CRUSH_ANIME_FRAMES];
 cairo_surface_t * star;
@@ -83,12 +83,7 @@ static cairo_surface_t * block_xpm_to_surface (const char **xpm)
 
 void  initXlib ()
 {
-   int     depth;
-   GdkVisual *vi;
-
-   vi = gdk_visual_get_system ();
-   depth = vi->depth;
-   colored = ((depth != 1) && (vi->type != GDK_VISUAL_GRAYSCALE));
+   colored = 1;
 
    board_pix = gdk_window_create_similar_surface (gtk_widget_get_window (board_w),
                                                   CAIRO_CONTENT_COLOR_ALPHA,
@@ -172,8 +167,8 @@ void initGTK(GtkWidget *w)
    gtk_widget_set_size_request (board_w, WIN_WIDTH, WIN_HEIGHT);
    gtk_widget_set_app_paintable (board_w, TRUE);
    gtk_widget_set_double_buffered (board_w, FALSE);
-   g_signal_connect (G_OBJECT (board_w), "expose_event",
-      G_CALLBACK (expose_board), NULL);
+   g_signal_connect (G_OBJECT (board_w), GTKCOMPAT_DRAW_SIGNAL,
+                     G_CALLBACK (expose_board), NULL);
    
    gtk_box_pack_start (GTK_BOX(hbox), board_w, TRUE, TRUE, 3);
 
@@ -195,7 +190,7 @@ void initGTK(GtkWidget *w)
 
    nextItem_w = gtk_drawing_area_new ();
    gtk_widget_set_size_request (nextItem_w, BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
-   g_signal_connect (G_OBJECT (nextItem_w), "expose_event",
+   g_signal_connect (G_OBJECT (nextItem_w), GTKCOMPAT_DRAW_SIGNAL,
                      G_CALLBACK (RedrawNextItem), NULL);
    gtk_box_pack_start (GTK_BOX(vbox2), nextItem_w, TRUE, TRUE, 0);
 

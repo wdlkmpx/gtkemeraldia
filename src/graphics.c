@@ -53,19 +53,30 @@ _cairo_gdk_draw_pix (cairo_t *cr,
 }
 
 
-gboolean expose_board(GtkWidget *widget, GdkEventExpose *event, gpointer data G_GNUC_UNUSED)
+gboolean expose_board (GtkWidget *widget, gpointer compat, gpointer data)
 {
+#if GTK_MAJOR_VERSION >= 3
+   cairo_t * cr = (cairo_t *) compat;
+   GdkRectangle rect;
+   GdkRectangle * area = &rect;
+   gdk_cairo_get_clip_rectangle (cr, area);
+#else // gtk2, espose_ event
+   GdkEventExpose * event = (GdkEventExpose *) compat;
    cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (widget));
+   GdkRectangle * area = &(event->area);
+#endif
    cairo_set_source_surface (cr, board_pix, 0, 0);
 
-   if (event->area.x == 0 && event->area.y == 0) {
+   if (area->x == 0 && area->y == 0) {
       cairo_paint (cr);
    } else {
-      _cairo_gdk_draw_pix (cr, event->area.x, event->area.y,
-                           event->area.x, event->area.y,
-                           event->area.width, event->area.height);
+      _cairo_gdk_draw_pix (cr, area->x, area->y,
+                           area->x, area->y,
+                           area->width, area->height);
    }
+#if GTK_MAJOR_VERSION == 2
    cairo_destroy (cr);
+#endif
    return TRUE;
 }
 

@@ -128,7 +128,7 @@ void  write_high_scores()
 
 void  PrintHighScores ()
 {
-   GtkWidget *table;
+   GtkWidget *table, * vbox, * dialog;
    GtkListStore *model;
    GtkTreeIter iter;
    GtkCellRenderer *renderer;
@@ -140,12 +140,13 @@ void  PrintHighScores ()
       return;
    }
    read_high_scores();
-   score_frame = gtk_dialog_new_with_buttons(_("xemeraldia's high scores"),
+   dialog = gtk_dialog_new_with_buttons(_("xemeraldia's high scores"),
                                              GTK_WINDOW(topLevel),
                                              GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                              GTK_STOCK_CLOSE, GTK_RESPONSE_ACCEPT,
                                              NULL);
-   gtk_dialog_set_default_response (GTK_DIALOG(score_frame), GTK_RESPONSE_ACCEPT);
+   gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+   vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
    model = gtk_list_store_new (4,
                                G_TYPE_STRING,
@@ -196,9 +197,9 @@ void  PrintHighScores ()
                                                       "text", 3, NULL);
    gtk_tree_view_append_column (GTK_TREE_VIEW (table), column);
 
-   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(score_frame)->vbox), table, TRUE, TRUE, 0);
+   gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
 
-   gtk_widget_show_all (score_frame);
-   gtk_dialog_run (GTK_DIALOG(score_frame));
-   gtk_widget_destroy (score_frame);
+   gtk_widget_show_all (dialog);
+   gtk_dialog_run (GTK_DIALOG(dialog));
+   gtk_widget_destroy (dialog);
 }

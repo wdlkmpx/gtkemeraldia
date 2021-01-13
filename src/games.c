@@ -114,7 +114,7 @@ static void  restart ()
 
    gtk_widget_queue_draw (board_w);
    saved_screen = NULL;
-   RedrawNextItem();
+   gtk_widget_queue_draw (nextItem_w); /* RedrawNextItem(); */
    startTimer ();
 }
 
@@ -188,7 +188,7 @@ void  makeNext ()
    movedown_counter = 0;
 
    decideNextItem ();
-   printNextItem ();
+   gtk_widget_queue_draw (nextItem_w); // print Next Item
 
    if (! star_comes)
    {
@@ -243,10 +243,9 @@ static void  pauseProc ()
    pango_cairo_show_layout (cr, layout);
    g_object_unref (layout);
 
-   clearNextItem ();
-
    cairo_destroy (cr);
    gtk_widget_queue_draw (board_w);
+   gtk_widget_queue_draw (nextItem_w); // paused = TRUE = clear next item
 }
 
 

@@ -86,10 +86,9 @@ extern AppData app_data;
 
 /* In graphics.c */
 gboolean boardw_draw_cb (GtkWidget *widget, gpointer compat, gpointer data);
-void RedrawNextItem(void);
+gboolean next_item_draw_cb (GtkWidget *widget, gpointer compat, gpointer data);
 void deleteCell(int xcoord, int ycoord);
 void delete_1_block(int x, int y);
-void printNextItem(void);
 void drawCell(int xcoord, int ycoord, cellstatus_t color, cellsubstatus_t sub);
 void printBlock(int x, int y, cellstatus_t color);
 void crack_1_block(int x, int y);
@@ -98,7 +97,6 @@ void printScore(void);
 void printItem(void);
 void printLevel(void);
 void clearScreen(void);
-void clearNextItem(void);
 void startTimer(void);
 void stopTimer(void);
 void showTmpScore(long tmp_sc, int sc_x, int sc_y, long ch_s);

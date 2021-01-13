@@ -86,12 +86,46 @@ static void invalidate_area(GtkWidget *widget, gint x, gint y, gint w, gint h)
 }
 
 
-void  RedrawNextItem ()
+gboolean next_item_draw_cb (GtkWidget *widget, gpointer compat, gpointer data)
 {
-   clearNextItem ();
-   if ((! gameover_flag) && (! paused)) {
-      printNextItem ();
+#if GTK_MAJOR_VERSION >= 3
+   cairo_t * cr = (cairo_t *) compat;
+#else // gtk2, espose_ event
+   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (widget));
+#endif
+
+   // this is a bit simple, so we'll do everything here
+   // first, clear the the area
+   cairo_set_source_rgba (cr, 0, 0, 0, 1); // black
+   cairo_rectangle (cr, 0, 0,
+                    BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
+   cairo_fill (cr);
+
+   // area remains cleared if game is over or paused
+   if (gameover_flag || paused) {
+      return (TRUE);
    }
+
+   // draw | redraw the next item
+   int  i;
+   if (next_i.col[0] == STAR) {
+      cairo_set_source_surface (cr, star,
+                                BLOCK_WIDTH / 2 + DIFF_X, BLOCK_HEIGHT /2 + DIFF_Y);
+      cairo_paint (cr);
+   } else {
+      for (i = 0; i < 3; i++) {
+         cairo_set_source_surface (cr, block[next_i.col[i]],
+                                   BLOCK_WIDTH * (iRot_vx[0][i]) + DIFF_X,
+                                   BLOCK_HEIGHT * (1 + iRot_vy[0][i]) + DIFF_Y);
+         cairo_paint (cr);
+
+      }
+   }
+
+#if GTK_MAJOR_VERSION == 2
+   cairo_destroy (cr);
+#endif
+   return TRUE;
 }
 
 
@@ -163,40 +197,6 @@ static gboolean animateTmpScore(void *closure)
                        90, 25);
    }
    return FALSE;
-}
-
-
-void  clearNextItem ()
-{
-   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (nextItem_w));
-   cairo_set_source_rgba (cr, 0, 0, 0, 1); // black
-   cairo_rectangle (cr, 0, 0,
-                    BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
-   cairo_fill (cr);
-   cairo_destroy (cr);
-}
-
-
-void  printNextItem ()
-{
-   int  i;
-   cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (nextItem_w));
-
-   clearNextItem ();
-   if (next_i.col[0] == STAR) {
-      cairo_set_source_surface (cr, star,
-                                BLOCK_WIDTH / 2 + DIFF_X, BLOCK_HEIGHT /2 + DIFF_Y);
-      cairo_paint (cr);
-   } else {
-      for (i = 0; i < 3; i++) {
-         cairo_set_source_surface (cr, block[next_i.col[i]],
-                                   BLOCK_WIDTH * (iRot_vx[0][i]) + DIFF_X,
-                                   BLOCK_HEIGHT * (1 + iRot_vy[0][i]) + DIFF_Y);
-         cairo_paint (cr);
-
-      }
-   }
-   cairo_destroy (cr);
 }
 
 

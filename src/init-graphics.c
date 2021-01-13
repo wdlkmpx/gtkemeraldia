@@ -114,7 +114,6 @@ void  initCairo (void)
       block[12] = block_xpm_to_surface (block6cr_xpm);
    }
    ///createBackground();
-   clearNextItem ();
    clearScreen();
 
    animated_score_font = pango_font_description_from_string ("sans-serif 20");
@@ -206,7 +205,7 @@ void initGTK(GtkWidget *w)
    nextItem_w = gtk_drawing_area_new ();
    gtk_widget_set_size_request (nextItem_w, BLOCK_WIDTH * 3, BLOCK_HEIGHT * 3);
    g_signal_connect (G_OBJECT (nextItem_w), GTKCOMPAT_DRAW_SIGNAL,
-                     G_CALLBACK (RedrawNextItem), NULL);
+                     G_CALLBACK (next_item_draw_cb), NULL);
    gtk_box_pack_start (GTK_BOX(vbox2), nextItem_w, TRUE, TRUE, 0);
 
    frame = gtk_frame_new (NULL);

@@ -185,7 +185,7 @@ int  main (int argc, char *argv[])
    }
    gtk_widget_show_all (topLevel);
 
-   initXlib ();
+   initCairo ();
    read_high_scores ();
 
    gtk_main ();

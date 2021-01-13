@@ -134,4 +134,4 @@ void PrintHighScores(void);
 
 /* In init-graphics */
 void  initGTK (GtkWidget *w);
-void  initXlib (void);
+void  initCairo (void);

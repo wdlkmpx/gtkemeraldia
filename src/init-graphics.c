@@ -25,9 +25,7 @@
 #include "./bitmaps/crush3.xpm"
 #include "./bitmaps/crush4.xpm"
 
-static void  createBWPixmaps ();
 static void  createColoredPixmaps ();
-static void  createCrushAnimePixmaps ();
 
 GtkWidget  *board_w, *nextItem_w, *quit, *start, *scores, *score_disp, *level_disp, *about;
 GtkWidget  *score_text, *high_sc_w, *topLevel;
@@ -81,7 +79,7 @@ static cairo_surface_t * block_xpm_to_surface (const char **xpm)
    return (s);
 }
 
-void  initXlib ()
+void  initCairo (void)
 {
    colored = 1;
 
@@ -92,11 +90,28 @@ void  initXlib ()
    saved_screen = gdk_window_create_similar_surface (gtk_widget_get_window (board_w),
                                                      CAIRO_CONTENT_COLOR_ALPHA,
                                                      WIN_WIDTH, WIN_HEIGHT);
-   createCrushAnimePixmaps ();
+   star = block_xpm_to_surface (star_xpm);
+   crush[0] = block_xpm_to_surface (crush0_xpm);
+   crush[1] = block_xpm_to_surface (crush1_xpm);
+   crush[2] = block_xpm_to_surface (crush2_xpm);
+   crush[3] = block_xpm_to_surface (crush3_xpm);
+   crush[4] = block_xpm_to_surface (crush4_xpm);
+
    if (colored) {
       createColoredPixmaps ();
    } else {
-     createBWPixmaps ();
+      block[1] = block_xpm_to_surface (block1_xpm);
+      block[2] = block_xpm_to_surface (block2_xpm);
+      block[3] = block_xpm_to_surface (block3_xpm);
+      block[4] = block_xpm_to_surface (block4_xpm);
+      block[5] = block_xpm_to_surface (block5_xpm);
+      block[6] = block_xpm_to_surface (block6_xpm);
+      block[7] = block_xpm_to_surface (block1cr_xpm);
+      block[8] = block_xpm_to_surface (block2cr_xpm);
+      block[9] = block_xpm_to_surface (block3cr_xpm);
+      block[10] = block_xpm_to_surface (block4cr_xpm);
+      block[11] = block_xpm_to_surface (block5cr_xpm);
+      block[12] = block_xpm_to_surface (block6cr_xpm);
    }
    ///createBackground();
    clearNextItem ();
@@ -237,24 +252,6 @@ void initGTK(GtkWidget *w)
 }
 
 
-static void  createBWPixmaps ()
-{
-   star = block_xpm_to_surface (star_xpm);
-   block[1] = block_xpm_to_surface (block1_xpm);
-   block[2] = block_xpm_to_surface (block2_xpm);
-   block[3] = block_xpm_to_surface (block3_xpm);
-   block[4] = block_xpm_to_surface (block4_xpm);
-   block[5] = block_xpm_to_surface (block5_xpm);
-   block[6] = block_xpm_to_surface (block6_xpm);
-   block[7] = block_xpm_to_surface (block1cr_xpm);
-   block[8] = block_xpm_to_surface (block2cr_xpm);
-   block[9] = block_xpm_to_surface (block3cr_xpm);
-   block[10] = block_xpm_to_surface (block4cr_xpm);
-   block[11] = block_xpm_to_surface (block5cr_xpm);
-   block[12] = block_xpm_to_surface (block6cr_xpm);
-}
-
-
 static void  createColoredPixmaps ()
 {
    int   i;
@@ -269,7 +266,6 @@ static void  createColoredPixmaps ()
       { 135, 206, 235 }, /* violet */
    };
 
-   star = block_xpm_to_surface (star_xpm);
    for (i = 1; i <= BLOCK_VARIETY; i++)
    {
       cairo_surface_t *s = cairo_image_surface_create (CAIRO_FORMAT_RGB24, BLOCK_WIDTH, BLOCK_HEIGHT);
@@ -340,14 +336,4 @@ static void  createColoredPixmaps ()
       cairo_destroy (c);
       cairo_surface_destroy (s);
    }
-}
-
-
-static void  createCrushAnimePixmaps ()
-{
-   crush[0] = block_xpm_to_surface (crush0_xpm);
-   crush[1] = block_xpm_to_surface (crush1_xpm);
-   crush[2] = block_xpm_to_surface (crush2_xpm);
-   crush[3] = block_xpm_to_surface (crush3_xpm);
-   crush[4] = block_xpm_to_surface (crush4_xpm);
 }

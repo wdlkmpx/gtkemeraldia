@@ -53,7 +53,7 @@ _cairo_gdk_draw_pix (cairo_t *cr,
 }
 
 
-gboolean expose_board (GtkWidget *widget, gpointer compat, gpointer data)
+gboolean boardw_draw_cb (GtkWidget *widget, gpointer compat, gpointer data)
 {
 #if GTK_MAJOR_VERSION >= 3
    cairo_t * cr = (cairo_t *) compat;

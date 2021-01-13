@@ -183,7 +183,7 @@ void initGTK(GtkWidget *w)
    gtk_widget_set_app_paintable (board_w, TRUE);
    gtk_widget_set_double_buffered (board_w, FALSE);
    g_signal_connect (G_OBJECT (board_w), GTKCOMPAT_DRAW_SIGNAL,
-                     G_CALLBACK (expose_board), NULL);
+                     G_CALLBACK (boardw_draw_cb), NULL);
    
    gtk_box_pack_start (GTK_BOX(hbox), board_w, TRUE, TRUE, 3);
 

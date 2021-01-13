@@ -85,7 +85,7 @@ typedef struct {
 extern AppData app_data;
 
 /* In graphics.c */
-gboolean expose_board (GtkWidget *widget, gpointer compat, gpointer data);
+gboolean boardw_draw_cb (GtkWidget *widget, gpointer compat, gpointer data);
 void RedrawNextItem(void);
 void deleteCell(int xcoord, int ycoord);
 void delete_1_block(int x, int y);

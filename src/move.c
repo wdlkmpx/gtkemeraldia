@@ -58,7 +58,7 @@ void  MoveDown ()
       if (++movedown_counter < BOARD_HEIGHT) {
          startTimer ();
       } else {
-         DropItem ();
+         DropItem (NULL);
       }
    }
 }

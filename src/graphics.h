@@ -119,7 +119,7 @@ void makeNext(void);
 
 /* In crack.c */
 gboolean canMoveDown(void) G_GNUC_PURE;
-gboolean DropItem(void);
+gboolean DropItem (gpointer user_data);
 
 void Quit(void);
 

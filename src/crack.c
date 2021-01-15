@@ -24,10 +24,10 @@ gboolean canMoveDown(void)
 }
 
 
-gboolean DropItem ()
+gboolean DropItem (gpointer user_data)
 {
    if (gameover_flag) {
-      return FALSE;
+      return G_SOURCE_REMOVE;
    }
    if (!canMoveDown())
    {
@@ -60,14 +60,14 @@ gboolean DropItem ()
    } else {
       if(++offset_down != BLOCK_HEIGHT) {
          printItem ();
-         return TRUE;
+         return G_SOURCE_CONTINUE;
       }
       offset_down = 0;
       moveItem (0, MOVE_DOWN);
    }
       
    startTimer();
-   return FALSE;
+   return G_SOURCE_REMOVE;
 }
 
 

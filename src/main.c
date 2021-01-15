@@ -131,7 +131,7 @@ int  main (int argc, char *argv[])
 
    // set score_file path
    char *hfile = get_config_dir_file ("xemeraldia.scores");
-   strncpy (score_file, hfile, sizeof(score_file));
+   strncpy (score_file, hfile, sizeof(score_file) - 1);
    app_data.scorefile = score_file;
    g_free (hfile);
 

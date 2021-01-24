@@ -1,5 +1,5 @@
 /*                                                              */
-/* score.c --  for xemeraldia                                   */
+/* score.c --  for gtkemeraldia                                   */
 /*                                                              */
 /* This file is copied from "xtetris" Version 2.5, and modified */
 
@@ -140,7 +140,7 @@ void  PrintHighScores ()
       return;
    }
    read_high_scores();
-   dialog = gtk_dialog_new_with_buttons(_("xemeraldia's high scores"),
+   dialog = gtk_dialog_new_with_buttons(_("gtkemeraldia's high scores"),
                                              GTK_WINDOW(topLevel),
                                              GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                                              "gtk-close", GTK_RESPONSE_ACCEPT,

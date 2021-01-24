@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: xemeraldia 0.4.3\n"
+"Project-Id-Version: gtkemeraldia 0.4.3\n"
 "Report-Msgid-Bugs-To: nick@reloco.com.ar\n"
 "POT-Creation-Date: 2009-02-10 00:24-0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -53,11 +53,11 @@ msgid "About..."
 msgstr ""
 
 #: main.c:41
-msgid "About XEmeraldia"
+msgid "About GtkEmeraldia"
 msgstr ""
 
 #: main.c:57
-msgid "<span size='xx-large' weight='bold'>xemeraldia</span>"
+msgid "<span size='xx-large' weight='bold'>gtkemeraldia</span>"
 msgstr ""
 
 #: main.c:68
@@ -112,7 +112,7 @@ msgid "write_high_scores:can't unlock"
 msgstr ""
 
 #: score.c:199
-msgid "xemeraldia's high scores"
+msgid "gtkemeraldia's high scores"
 msgstr ""
 
 #: score.c:233

@@ -1,5 +1,5 @@
 /*                             */
-/* xemeraldia   --- graphics.c */
+/* gtkemeraldia   --- graphics.c */
 /*                             */
 
 #include "games.h"

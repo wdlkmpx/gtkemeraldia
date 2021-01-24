@@ -1,5 +1,5 @@
 /*                                   */
-/* xemeraldia   ---- init-graphics.c */
+/* gtkemeraldia   ---- init-graphics.c */
 /*                                   */
 
 #include "graphics.h"

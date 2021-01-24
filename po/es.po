@@ -1,10 +1,10 @@
-# Traducción al castellando de "xemeraldia".
-# This file is distributed under the same license as the xemeraldia package.
+# Traducción al castellando de "gtkemeraldia".
+# This file is distributed under the same license as the gtkemeraldia package.
 # Nicolás Lichtmaier <nick@reloco.com.ar>, 2003, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: xemeraldia 0.4.1\n"
+"Project-Id-Version: gtkemeraldia 0.4.1\n"
 "Report-Msgid-Bugs-To: nick@reloco.com.ar\n"
 "POT-Creation-Date: 2009-02-10 00:24-0200\n"
 "PO-Revision-Date: 2005-07-29 00:13-0300\n"
@@ -51,12 +51,12 @@ msgid "About..."
 msgstr "Acerca..."
 
 #: main.c:41
-msgid "About XEmeraldia"
-msgstr "Acerca de XEmeraldia"
+msgid "About GtkEmeraldia"
+msgstr "Acerca de GtkEmeraldia"
 
 #: main.c:57
-msgid "<span size='xx-large' weight='bold'>xemeraldia</span>"
-msgstr "<span size='xx-large' weight='bold'>xemeraldia</span>"
+msgid "<span size='xx-large' weight='bold'>gtkemeraldia</span>"
+msgstr "<span size='xx-large' weight='bold'>gtkemeraldia</span>"
 
 #: main.c:68
 msgid ""
@@ -125,8 +125,8 @@ msgid "write_high_scores:can't unlock"
 msgstr "write_high_scores:no se pudo destrabar el archivo"
 
 #: score.c:199
-msgid "xemeraldia's high scores"
-msgstr "puntajes más altos de xemeraldia"
+msgid "gtkemeraldia's high scores"
+msgstr "puntajes más altos de gtkemeraldia"
 
 #: score.c:233
 msgid "Name"

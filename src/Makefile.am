@@ -1,8 +1,8 @@
 AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(datadir)/locale\"
 
-bin_PROGRAMS = xemeraldia
+bin_PROGRAMS = gtkemeraldia
 
-xemeraldia_SOURCES = crack.c \
+gtkemeraldia_SOURCES = crack.c \
 	games.c \
 	graphics.c \
 	init-graphics.c \
@@ -10,6 +10,6 @@ xemeraldia_SOURCES = crack.c \
 	move.c \
 	score.c
 
-xemeraldia_LDADD = $(LIBOBJS) @GTK_LIBS@
+gtkemeraldia_LDADD = $(LIBOBJS) @GTK_LIBS@
 
-xemeraldia_CFLAGS = @GTK_CFLAGS@
+gtkemeraldia_CFLAGS = @GTK_CFLAGS@

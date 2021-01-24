@@ -1,5 +1,5 @@
 /*                             */
-/* xemeraldia   -----  crack.c */
+/* gtkemeraldia   -----  crack.c */
 /*                             */
 
 #include "games.h"

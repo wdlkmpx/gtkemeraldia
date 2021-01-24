@@ -1,5 +1,5 @@
 /*                             */
-/* xemeraldia    ----- main.c  */
+/* gtkemeraldia    ----- main.c  */
 /*                             */
 
 #include "games.h"
@@ -7,7 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-#include "bitmaps/xemeraldia.xpm"
+#include "bitmaps/gtkemeraldia.xpm"
 
 char score_file[256];
 AppData  app_data = {
@@ -16,7 +16,7 @@ AppData  app_data = {
 };
 char    *name, *programname;
 
-static GdkPixbuf *xemeraldia_icon;
+static GdkPixbuf *gtkemeraldia_icon;
 
 /* returns a path that must be freed with g_free) */
 static char * get_config_dir_file (const char * file)
@@ -95,15 +95,15 @@ static void About (void)
         "pause the game.\n"
    );
 
-   logo = xemeraldia_icon;
+   logo = gtkemeraldia_icon;
 
    w = g_object_new (GTK_TYPE_ABOUT_DIALOG,
                      "version",      VERSION,
-                     "program-name", "XEmeraldia",
+                     "program-name", "GtkEmeraldia",
                      "copyright",    "Copyright (C) 1995-2021",
                      "comments",     comments,
-                     "license",      "Permission to use, copy, modify and distribute the program of Xemeraldia \n for any purpose and without fee is granted.",
-                     "website",      "https://github.com/wdlkmpx/xemeraldia",
+                     "license",      "Permission to use, copy, modify and distribute the program of GtkEmeraldia \n for any purpose and without fee is granted.",
+                     "website",      "https://github.com/wdlkmpx/gtkemeraldia",
                      "authors",      authors,
                      "logo",         logo,
                      "translator-credits", translators,
@@ -130,7 +130,7 @@ int  main (int argc, char *argv[])
    }
 
    // set score_file path
-   char *hfile = get_config_dir_file ("xemeraldia.scores");
+   char *hfile = get_config_dir_file ("gtkemeraldia.scores");
    strncpy (score_file, hfile, sizeof(score_file) - 1);
    app_data.scorefile = score_file;
    g_free (hfile);
@@ -166,11 +166,11 @@ int  main (int argc, char *argv[])
    }
 
    topLevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-   gtk_window_set_title (GTK_WINDOW(topLevel), "xemeraldia");
+   gtk_window_set_title (GTK_WINDOW(topLevel), "gtkemeraldia");
    gtk_window_set_resizable (GTK_WINDOW(topLevel), FALSE);
 
-   xemeraldia_icon = gdk_pixbuf_new_from_xpm_data (icon);
-   gtk_window_set_icon (GTK_WINDOW(topLevel), xemeraldia_icon);
+   gtkemeraldia_icon = gdk_pixbuf_new_from_xpm_data (icon);
+   gtk_window_set_icon (GTK_WINDOW(topLevel), gtkemeraldia_icon);
 
    // g_log_set_always_fatal(G_LOG_LEVEL_MASK);
 

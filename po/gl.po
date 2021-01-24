@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: xemeraldia-0.4.1 galego\n"
+"Project-Id-Version: gtkemeraldia-0.4.1 galego\n"
 "Report-Msgid-Bugs-To: nick@reloco.com.ar\n"
 "POT-Creation-Date: 2009-02-10 00:24-0200\n"
 "PO-Revision-Date: 2008-08-21 11:12+0100\n"
@@ -49,12 +49,12 @@ msgid "About..."
 msgstr "Acerca de..."
 
 #: main.c:41
-msgid "About XEmeraldia"
-msgstr "Acerca de XEmeraldia"
+msgid "About GtkEmeraldia"
+msgstr "Acerca de GtkEmeraldia"
 
 #: main.c:57
-msgid "<span size='xx-large' weight='bold'>xemeraldia</span>"
-msgstr "<span size='xx-large' weight='bold'>xemeraldia</span>"
+msgid "<span size='xx-large' weight='bold'>gtkemeraldia</span>"
+msgstr "<span size='xx-large' weight='bold'>gtkemeraldia</span>"
 
 #: main.c:68
 msgid ""
@@ -123,8 +123,8 @@ msgid "write_high_scores:can't unlock"
 msgstr "write_high_scores: non se pode debloquear o ficheiro"
 
 #: score.c:199
-msgid "xemeraldia's high scores"
-msgstr "Puntuacións máis altas de XEmeraldia"
+msgid "gtkemeraldia's high scores"
+msgstr "Puntuacións máis altas de GtkEmeraldia"
 
 #: score.c:233
 msgid "Name"

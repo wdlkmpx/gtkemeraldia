@@ -1,5 +1,5 @@
 /*                             */
-/* xemeraldia    ------ move.c */
+/* gtkemeraldia    ------ move.c */
 /*                             */
 
 #include "games.h"

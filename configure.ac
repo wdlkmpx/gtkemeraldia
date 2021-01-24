@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT([xemeraldia],[0.4.3],[])
+AC_INIT([gtkemeraldia],[0.4.3],[])
 AM_INIT_AUTOMAKE([-Wall foreign])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
@@ -66,7 +66,7 @@ case "$CC" in
   *) ;;
 esac
 
-GETTEXT_PACKAGE=xemeraldia
+GETTEXT_PACKAGE=gtkemeraldia
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
 

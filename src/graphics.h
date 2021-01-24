@@ -1,5 +1,5 @@
 /*                                */
-/* xemeraldia   ------ graphics.h */
+/* gtkemeraldia   ------ graphics.h */
 /*                                */
 
 #define _GNU_SOURCE

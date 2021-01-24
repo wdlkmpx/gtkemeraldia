@@ -1,5 +1,5 @@
 /*                              */
-/* xemeraldia     ----- games.h */
+/* gtkemeraldia     ----- games.h */
 /*                              */
 
 #include <time.h>

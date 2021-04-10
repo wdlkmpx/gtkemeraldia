@@ -27,3 +27,6 @@ stamp-h1
 .deps
 .libs
 src/gtkemeraldia
+build-aux
+autoconf
+autoconf-m4

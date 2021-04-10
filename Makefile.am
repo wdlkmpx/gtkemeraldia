@@ -7,6 +7,6 @@ dist_pixmaps_DATA = src/bitmaps/gtkemeraldia.xpm
 
 SUBDIRS = po src
 
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I autoconf-m4
 
 EXTRA_DIST = gtkemeraldia.desktop

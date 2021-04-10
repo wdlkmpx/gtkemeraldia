@@ -1,13 +1,13 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.61)
-AC_INIT([gtkemeraldia],[0.4.3],[])
+AC_INIT([gtkemeraldia],[0.4.3],[https://github.com/wdlkmpx/gtkemeraldia])
+AC_CONFIG_AUX_DIR([autoconf])
+AC_CONFIG_MACRO_DIR([autoconf-m4])
 AM_INIT_AUTOMAKE([-Wall foreign])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_HEADER(config.h)
-AC_CONFIG_MACRO_DIR([m4])
 AM_GNU_GETTEXT([external])
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 m4_ifdef([AM_MAINTAINER_MODE], [AM_MAINTAINER_MODE])

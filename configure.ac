@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([gtkemeraldia],[0.4.3],[https://github.com/wdlkmpx/gtkemeraldia])
+AC_INIT([gtkemeraldia],[1.0],[https://github.com/wdlkmpx/gtkemeraldia])
 AC_CONFIG_AUX_DIR([autoconf])
 AC_CONFIG_MACRO_DIR([autoconf-m4])
 AM_INIT_AUTOMAKE([-Wall foreign])

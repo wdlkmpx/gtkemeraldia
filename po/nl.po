@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gtkemeraldia 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-17 10:03+0800\n"
-"PO-Revision-Date: 2021-04-17 12:32+0200\n"
+"PO-Revision-Date: 2021-04-17 18:31+0200\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language: nl\n"
@@ -56,11 +56,11 @@ msgstr "Scores"
 
 #: ../src/init-graphics.c:248
 msgid "_About"
-msgstr "_Over…"
+msgstr "_Over"
 
 #: ../src/init-graphics.c:253
 msgid "_Quit"
-msgstr ""
+msgstr "Af_sluiten"
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
 #: ../src/main.c:85
@@ -93,7 +93,9 @@ msgstr "%s: het bestand met topsores, %s, kan niet worden geopend (%s)\n"
 #: ../src/main.c:157
 #, c-format
 msgid "%s: No High score file.  Use '-noscore' to avoid this message.\n"
-msgstr "%s: geen bestand met topscores.  Start het spel met de optie '-noscore' om dit bericht te verwerpen.\n"
+msgstr ""
+"%s: geen bestand met topscores.  Start het spel met de optie '-noscore' om "
+"dit bericht te verwerpen.\n"
 
 #: ../src/score.c:101
 msgid "No name"
@@ -122,4 +124,3 @@ msgstr "Level"
 #: ../src/score.c:196
 msgid "Date"
 msgstr "Datum"
-

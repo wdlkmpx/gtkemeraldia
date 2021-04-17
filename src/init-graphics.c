@@ -243,10 +243,15 @@ void initGTK(GtkWidget *w)
       gtk_box_pack_start (GTK_BOX (framevbox), scores, FALSE, FALSE, 2);
    }
 
-   about = gtk_button_new_from_stock ("gtk-about");
+   GtkWidget * img, * img2;
+   img = gtk_image_new_from_icon_name ("gtk-about", GTK_ICON_SIZE_BUTTON);
+   about = gtk_button_new_with_mnemonic (_("_About"));
+   gtk_button_set_image (GTK_BUTTON (about), img);
    gtk_box_pack_start (GTK_BOX (framevbox), about, FALSE, FALSE, 2);
 
-   quit = gtk_button_new_from_stock ("gtk-quit");
+   img2 = gtk_image_new_from_icon_name ("gtk-quit", GTK_ICON_SIZE_BUTTON);
+   quit = gtk_button_new_with_mnemonic (_("_Quit"));
+   gtk_button_set_image (GTK_BUTTON (quit), img2);
    gtk_box_pack_start (GTK_BOX (framevbox), quit, FALSE, FALSE, 2);
 }
 

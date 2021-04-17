@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gtkemeraldia 0.4.1\n"
-"Report-Msgid-Bugs-To: nick@reloco.com.ar\n"
-"POT-Creation-Date: 2009-02-10 00:24-0200\n"
+"Project-Id-Version: gtkemeraldia 1.0\n"
+"Report-Msgid-Bugs-To: nick@reloco.com.ar \n"
+"POT-Creation-Date: 2021-04-17 10:03+0800\n"
 "PO-Revision-Date: 2005-07-29 00:13-0300\n"
 "Last-Translator: Nicolás Lichtmaier <nick@reloco.com.ar>\n"
 "Language-Team: Spanish <nick@reloco.com.ar>\n"
@@ -15,65 +15,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: games.c:111 games.c:126
+#: ../src/games.c:107 ../src/games.c:126
 msgid "Pause"
 msgstr "Pausa"
 
-#: games.c:216 games.c:247 init-graphics.c:191
+#: ../src/games.c:217 ../src/games.c:256
 msgid "Start"
 msgstr "Comenzar"
 
-#: games.c:230
+#: ../src/games.c:237
 msgid "PAUSE!"
 msgstr "¡PAUSA!"
 
-#: games.c:251
+#: ../src/games.c:261
 msgid "<<< GAME OVER >>>"
 msgstr "<<< JUEGO TERMINADO >>>"
 
-#: init-graphics.c:152
+#: ../src/init-graphics.c:202
 msgid "<b>NEXT</b>"
 msgstr "<b>SIGUIENTE</b>"
 
-#: init-graphics.c:168
+#: ../src/init-graphics.c:218
 msgid "<b>SCORE</b>"
 msgstr "<b>PUNTAJE</b>"
 
-#: init-graphics.c:178
+#: ../src/init-graphics.c:228
 msgid "<b>LEVEL</b>"
 msgstr "<b>NIVEL</b>"
 
-#: init-graphics.c:197
+#: ../src/init-graphics.c:237
+msgid "_Start"
+msgstr "_Comenzar"
+
+#: ../src/init-graphics.c:242
 msgid "Scores"
 msgstr "Puntajes"
 
-#: init-graphics.c:204
-msgid "About..."
-msgstr "Acerca..."
+#: ../src/init-graphics.c:248
+msgid "_About"
+msgstr "_Acerca de..."
 
-#: main.c:41
-msgid "About GtkEmeraldia"
-msgstr "Acerca de GtkEmeraldia"
+#: ../src/init-graphics.c:253
+msgid "_Quit"
+msgstr "_Salir"
 
-#: main.c:57
-msgid "<span size='xx-large' weight='bold'>gtkemeraldia</span>"
-msgstr "<span size='xx-large' weight='bold'>gtkemeraldia</span>"
+#. TRANSLATORS: Replace this string with your names, one name per line.
+#: ../src/main.c:85
+msgid "Translated by"
+msgstr "Nicolás Lichtmaier <nick@reloco.com.ar>"
 
-#: main.c:68
+#: ../src/main.c:87
 msgid ""
 "Drop the blocks.  If you drop a square on top of one of the same color, they "
 "(as well as any neighboring blocks of the same color) will both be shaken by "
-"an “impact”.  The first impact will cause fractures; the second will cause "
+"an 'impact'.  The first impact will cause fractures; the second will cause "
 "the block(s) to dissolve.\n"
 "\n"
 "You can either use the arrow keys or vi-style (hjkl) keys to move/rotate the "
-"blocks.  “s” or “p” will pause the game, and if your boss comes along, “q” "
-"can be used to avoid an unpleasant confrontation.\n"
-"\n"
-"Author: Yuuki Tomikawa &lt;tommy@huie.hokudai.ac.jp>\n"
-"\n"
-"Ported to GTK+ 2.x in 2003\n"
-"by Nicolás Lichtmaier &lt;nick@reloco.com.ar>\n"
+"blocks.  “s” or “p” will pause the game.\n"
 msgstr ""
 "Deje caer los bloques.  Si lo hace sobre uno del mismo color, ambos "
 "(conjuntamente con cualquier bloque vecino del mismo color) serán conmovidos "
@@ -81,66 +80,42 @@ msgstr ""
 "que él o los bloques se disuelvan.\n"
 "\n"
 "Ud. puede usar las flechas o las teclas estilo vi (hjkl) para mover/rotar "
-"los bloques.  “s” o “p” pausarán el juego, y si su jefe se aparece, “q” "
-"podrá usarse para evitar una confrontación desagradable.\n"
-"\n"
-"Author: Yuuki Tomikawa &lt;tommy@huie.hokudai.ac.jp>\n"
-"\n"
-"Portado a GTK+ 2.x in 2003\n"
-"por Nicolás Lichtmaier &lt;nick@reloco.com.ar>\n"
+"los bloques.  “s” o “p” pausarán el juego.\n"
 
-#: main.c:164
+#: ../src/main.c:155
 #, c-format
 msgid "%s: Couldn't open high score file %s (%s)\n"
 msgstr "%s: No se pudo abrir el archivo de puntajes %s (%s)\n"
 
-#: main.c:166
+#: ../src/main.c:157
 #, c-format
 msgid "%s: No High score file.  Use '-noscore' to avoid this message.\n"
-msgstr ""
-"%s: No hay archivo de puntajes. Use '-noscore' para evitar este mensaje.\n"
+msgstr "%s: No hay archivo de puntajes. Use '-noscore' para evitar este mensaje.\n"
 
-#: score.c:102 score.c:108
-msgid "read_high_scores:can't lock for reading"
-msgstr "read_high_scores:no se pudo trabar el archivo para lectura"
-
-#: score.c:123
+#: ../src/score.c:101
 msgid "No name"
 msgstr "Sin nombre"
 
-#: score.c:131 score.c:134
-msgid "read_high_scores:can't unlock"
-msgstr "read_high_scores:no se pudo destrabar el archivo"
-
-#: score.c:153 score.c:159
-msgid "write_high_scores:can't lock for writing"
-msgstr "write_high_scores:no se pudo trabar el archivo para escritura"
-
-#: score.c:166
-#, fuzzy
+#: ../src/score.c:116
 msgid "write_high_scores:can't truncate scores file"
 msgstr "write_high_scores:no se pudo destrabar el archivo"
 
-#: score.c:179 score.c:182
-msgid "write_high_scores:can't unlock"
-msgstr "write_high_scores:no se pudo destrabar el archivo"
-
-#: score.c:199
+#: ../src/score.c:143
 msgid "gtkemeraldia's high scores"
 msgstr "puntajes más altos de gtkemeraldia"
 
-#: score.c:233
+#: ../src/score.c:181
 msgid "Name"
 msgstr "Nombre"
 
-#: score.c:240
+#: ../src/score.c:186
 msgid "Score"
 msgstr "Puntaje"
 
-#: score.c:247
+#: ../src/score.c:191
 msgid "Level"
 msgstr "Nivel"
 
-#: score.c:254
+#: ../src/score.c:196
 msgid "Date"
 msgstr "Fecha"

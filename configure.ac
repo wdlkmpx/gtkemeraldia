@@ -11,7 +11,7 @@ AC_CONFIG_HEADER(config.h)
 AM_GNU_GETTEXT([external])
 m4_ifdef([AM_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
 
-LT_INIT
+#L#T_INIT
 
 # Checks for programs.
 AC_PROG_CC
@@ -69,7 +69,7 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
-	po/Makefile.in
+	po/Makefile
 ])
 AC_OUTPUT
 
